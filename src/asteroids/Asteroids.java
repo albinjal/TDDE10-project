@@ -1,14 +1,28 @@
 package asteroids;
 
+import java.awt.Toolkit;
+
+import states.GameModel;
+
 public class Asteroids {
 
-	public Asteroids() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		GameModel model = new GameModel();
+        GameFrame frame = new GameFrame(model);
+        
+        
+        while(true) {
+        	long lastTime = System.currentTimeMillis();
 
+            model.update();
+            frame.repaint();
+    
+            long timer = System.currentTimeMillis() - lastTime;
+
+            Toolkit.getDefaultToolkit().sync();
+
+        }
+        
 	}
 
 }
