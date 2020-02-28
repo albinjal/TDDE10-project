@@ -14,7 +14,7 @@ public class Canvas extends JPanel {
 	public Canvas(final GameModel model) {
 		this.model = model;
 		
-		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+		this.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
         this.setFocusable(true);
         
         this.addKeyListener(new KeyAdapter() {

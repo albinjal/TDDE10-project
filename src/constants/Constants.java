@@ -1,6 +1,14 @@
 package constants;
 
+import states.GameState;
+import states.PlayState;
+
+
 public interface Constants {
 	final double fps = 60;
 	double ms = 1000;
+	GameStates entryState = GameStates.Play;
+    int SCREEN_WIDTH = 1000;
+    int SCREEN_HEIGHT = 800;
+
 }
