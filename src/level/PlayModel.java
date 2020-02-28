@@ -14,7 +14,7 @@ public class PlayModel {
 	private Ship ship;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Powerup> powerups;
-	private int points = 0;
+	private int points = 1;
 	public PlayModel() {
 		this.ship = new StandardShip(new MyPoint(100, 500));
 		this.ship.move(50, 50);
