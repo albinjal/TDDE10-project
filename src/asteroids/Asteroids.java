@@ -1,6 +1,11 @@
 package asteroids;
 
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import constants.Constants;
 import states.GameModel;
@@ -31,5 +36,15 @@ public class Asteroids {
         }
         
 	}
+	
+	 public static BufferedImage loadImage(String imgPath) {
+	        try {
+	            return ImageIO.read(new File(imgPath));
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
+
 
 }
