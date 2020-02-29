@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -26,8 +27,10 @@ public abstract class Ship {
 	
 	public void draw(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.draw(this.hitBox);
-		g2d.drawImage(this.getImg(), (int) this.upperLeft().getX(), (int) this.upperLeft().getY(), (int) this.getSize().getWidth(), (int) this.getSize().getHeight(), null );
+		AffineTransform trans = new AffineTransform();
+		trans.rotate( Math.toRadians(45), this.hitBox.getX(), this.hitBox.getY());
+		g2d.draw(trans.createTransformedShape(this.hitBox));
+		// g2d.drawImage(this.getImg(), trans, null );
 	}
 	
 	public void setPos(MyPoint pos) {
@@ -52,8 +55,5 @@ public abstract class Ship {
 		return this.image;
 	}
 	
-	public MyPoint upperLeft() {
-		return this.position.relativePoint(-this.getSize().getWidth() / 2., -this.getSize().getHeight() / 2);
-	}
 	
 }

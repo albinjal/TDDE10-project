@@ -25,6 +25,6 @@ public class PlayModel {
 	}
 	
 	public void update() {
-		this.ship.move(1, 0);
+		// this.ship.move(1, 0);
 	}
 }
