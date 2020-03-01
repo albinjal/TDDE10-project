@@ -26,8 +26,8 @@ public class PlayModel {
 	}
 	
 	public void update() {
-		this.ship.move(new MyPoint(10, 0));
-		this.ship.rotate(45);
+		this.ship.move(new MyPoint(1, 0));
+		this.ship.rotate(1);
 
 		
 	}

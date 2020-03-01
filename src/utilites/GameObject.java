@@ -79,6 +79,5 @@ public abstract class GameObject {
 	
 	public abstract BufferedImage getImg();
 	
-	
 
 }

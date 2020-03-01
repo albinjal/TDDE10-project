@@ -14,12 +14,12 @@ public class StandardShip extends Ship {
 	private BufferedImage image;
 	public StandardShip() {
 		super();
-		this.image = Asteroids.loadImage(this.getClass().getResource("/assets/triangle.png").getPath());
+		this.image = Asteroids.loadImage(this.getClass().getResource("/assets/ship.png").getPath());
 	}
 
 	@Override
 	public Shape getHitboxShape() {
-		return new Rectangle2D.Double(0, 0, 100, 100);
+		return new Rectangle2D.Double(0, 0, 100, 150);
 	}
 
 	@Override
