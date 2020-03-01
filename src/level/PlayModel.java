@@ -16,8 +16,8 @@ public class PlayModel {
 	private ArrayList<Powerup> powerups;
 	private int points = 1;
 	public PlayModel() {
-		this.ship = new StandardShip(new MyPoint(100, 500));
-		this.ship.move(50, 50);
+		this.ship = new StandardShip();
+		this.ship.setPos(new MyPoint(100, 500));
 	}
 	
 	public void draw(Graphics g) {
@@ -25,6 +25,6 @@ public class PlayModel {
 	}
 	
 	public void update() {
-		// this.ship.move(1, 0);
+		this.ship.rotate(1);
 	}
 }

@@ -10,49 +10,67 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.awt.image.BufferedImage;
 
 import level.PlayModel;
 import utilites.MyPoint;
 
 public abstract class Ship {
-	private MyPoint position;
 	protected BufferedImage image;
-	private Rectangle2D.Double hitBox = new Rectangle2D.Double();
-	public Ship(MyPoint start) {
-		this.setPos(start);
+	private Shape hitbox;
+	public Ship() {
 	}
 	
 	public abstract Dimension getSize();
 	
 	public void draw(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-		AffineTransform trans = new AffineTransform();
-		trans.rotate( Math.toRadians(45), this.hitBox.getX(), this.hitBox.getY());
-		g2d.draw(trans.createTransformedShape(this.hitBox));
-		// g2d.drawImage(this.getImg(), trans, null );
+		g2d.draw(this.hitbox);
 	}
 	
 	public void setPos(MyPoint pos) {
-		this.position = pos;
-		this.patchBox();
+		this.move(pos.getX() + this.getPos().getX(), pos.getY() + this.getPos().getY());
 	}
 	
-	public void move(int x, int y) {
-		this.position.move(x, y);
-		this.patchBox();
+	public void setCenter(MyPoint pos) {
+		this.move(pos.getX() + this.getCenter().getX(), pos.getY() + this.getCenter().getY());
+
+	}
+	
+	
+	public void move(double x, double y) {
+		AffineTransform trans = new AffineTransform();
+		trans.setToTranslation(x, y);
+		this.hitbox = trans.createTransformedShape(this.hitbox);
 	}
 	
 	public MyPoint getPos() {
-		return this.position;
+		return new MyPoint(this.hitbox.getBounds2D().getX(), this.hitbox.getBounds2D().getY());
 	}
 	
-	private void patchBox() {
-		this.hitBox.setFrameFromCenter(this.position, this.position.relativePoint(this.getSize().getWidth() / 2, this.getSize().getHeight() / 2));
+	public MyPoint getCenter() {
+		return new MyPoint(this.hitbox.getBounds2D().getCenterX(), this.hitbox.getBounds2D().getCenterY());
 	}
+
+	
 	
 	public BufferedImage getImg() {
 		return this.image;
+	}
+	
+	public void rotate(int degrees) {
+		AffineTransform trans = new AffineTransform();
+		trans.setToRotation( Math.toRadians(45), this.getCenter().getX(), this.getCenter().getY());
+		this.hitbox = trans.createTransformedShape(this.hitbox);
+	}
+	
+	protected void setHitbox(Shape hitbox) {
+		this.hitbox = hitbox;
+	}
+	
+	public Shape getHitbox() {
+		return this.hitbox;
 	}
 	
 	
