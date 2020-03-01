@@ -33,7 +33,7 @@ public class PlayState extends GameState {
 
 	@Override
 	public void keyPressed(int key) {
-
+		this.data.keyPressed(key);
 	}
 	
 	public static int calcFPS(long now, long last) {

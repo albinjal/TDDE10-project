@@ -5,16 +5,21 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
 
 public abstract class GameObject {
-	private int rotation;
+	private double rotation = 0;
 	private MyPoint position;
+	private MyPoint velocity;
+	private double resistance = 0;
 	
 	public GameObject() {
-		
+		this.position = new MyPoint();
+		this.velocity = new MyPoint();
+
 	}
 	
 	public void move(MyPoint cords) {
@@ -32,13 +37,13 @@ public abstract class GameObject {
 	public AffineTransform getTransform() {
 		AffineTransform transform = new AffineTransform();
 		transform.translate(this.getPos().getX(), this.getPos().getY());
-		transform.rotate(Math.toRadians(this.rotation));
+		transform.rotate(this.rotation);
 		transform.translate(- this.getWidth() / 2, - this.getHeight() / 2);
 		return transform;
 	}
 	
-	public void rotate(int degrees) {
-		this.rotation += degrees;
+	public void rotate(double degrees) {
+		this.rotation += Math.toRadians(degrees);
 	}
 	
 	public double getWidth() {
@@ -60,6 +65,7 @@ public abstract class GameObject {
 	public void drawHitbox(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.draw(this.getHitbox());
+		
 	}
 	
 	public void drawImage(Graphics g) {
@@ -75,9 +81,38 @@ public abstract class GameObject {
 		return trans;
 	}
 	
+	
+	public MyPoint getDirection() {
+		return new MyPoint(Math.cos(this.rotation), Math.sin(this.rotation));
+	}
+	
+	public void updateKinematics(double time) {
+		this.patchPos(time);
+		this.resist(time);
+	}
+	
+	
+	public void patchPos(double time) {
+		this.position = this.position.add(this.velocity.multiply(time));
+	}
+	
+	public void addVel(MyPoint vel) {
+		this.velocity = this.velocity.add(vel);
+	}
+	
+
+	
+	private void resist(double time) {
+		this.velocity = this.velocity.subtract(this.velocity.multiply(time * this.resistance));
+	}
+	
+
+	
 	public abstract Shape getHitboxShape();
 	
 	public abstract BufferedImage getImg();
 	
-
+	public void setResistance(double res) {
+		this.resistance = res;
+	}
 }

@@ -19,7 +19,7 @@ public class StandardShip extends Ship {
 
 	@Override
 	public Shape getHitboxShape() {
-		return new Rectangle2D.Double(0, 0, 100, 150);
+		return new Rectangle2D.Double(0, 0, 100, 60);
 	}
 
 	@Override

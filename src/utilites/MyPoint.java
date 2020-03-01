@@ -31,4 +31,8 @@ public class MyPoint extends Point2D.Double {
 	public MyPoint multiply(double k) {
 		return new MyPoint(k * this.getX(), k * this.getY());
 	}
+	
+	public double amount() {
+		return Math.sqrt(Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2));
+	}
 }
