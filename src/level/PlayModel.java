@@ -18,6 +18,7 @@ public class PlayModel {
 	public PlayModel() {
 		this.ship = new StandardShip();
 		this.ship.setPos(new MyPoint(100, 500));
+		
 	}
 	
 	public void draw(Graphics g) {
@@ -25,6 +26,9 @@ public class PlayModel {
 	}
 	
 	public void update() {
-		this.ship.rotate(1);
+		this.ship.move(new MyPoint(10, 0));
+		this.ship.rotate(45);
+
+		
 	}
 }
