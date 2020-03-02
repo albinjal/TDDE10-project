@@ -15,19 +15,13 @@ public class StandardShip extends Ship {
 	private BufferedImage image;
 	public StandardShip(PlayModel model) {
 		super(model);
-		this.image = Asteroids.loadImage(this.getClass().getResource("/assets/ship.png").getPath());
+		this.setImg("/assets/ship.png");
 	}
 
 	@Override
 	public Shape getHitboxShape() {
 		return new Rectangle2D.Double(0, 0, 100, 60);
 	}
-
-	@Override
-	public BufferedImage getImg() {
-		return this.image;
-	}
-	
 	
 
 }

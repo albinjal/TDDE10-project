@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
 
+import asteroids.Asteroids;
 import constants.Constants;
 
 public abstract class GameObject {
@@ -17,11 +18,21 @@ public abstract class GameObject {
 	private MyPoint position;
 	private MyPoint velocity;
 	private double resistance = 0;
+	private BufferedImage img;
 
 	public GameObject() {
 		this.setPos(new MyPoint());
 		this.velocity = new MyPoint();
-
+	}
+	
+	public GameObject(MyPoint pos) {
+		this.setPos(pos);
+		this.velocity = new MyPoint();
+	}
+	
+	public GameObject(MyPoint pos, MyPoint vel) {
+		this.setPos(pos);
+		this.setVel(vel);
 	}
 
 	public void move(MyPoint cords) {
@@ -132,6 +143,16 @@ public abstract class GameObject {
 	public MyPoint getVel() {
 		return this.velocity;
 	}
+	
+	public void setDirection(MyPoint dir) {
+		dir = dir.normalize();
+		double quad = Math.asin(dir.getY());
+		double angle = Math.acos(dir.getX());
+		if (quad < 0) {
+			angle *= -1;
+		}
+		this.setRotation(angle);
+	}
 
 	private Shape vectorFromCenter(MyPoint point) {
 		MyPoint center = this.getPos();
@@ -145,9 +166,15 @@ public abstract class GameObject {
 
 	public abstract Shape getHitboxShape();
 
-	public abstract BufferedImage getImg();
+	public BufferedImage getImg() {
+		return this.img;
+	}
 
 	public void setResistance(double res) {
 		this.resistance = res;
+	}
+	
+	public void setImg(String path) {
+		this.img = Asteroids.loadImage(this.getClass().getResource(path).getPath());
 	}
 }
