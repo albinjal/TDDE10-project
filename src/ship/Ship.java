@@ -45,8 +45,8 @@ public abstract class Ship extends GameObject {
 	
 	public void fire() {
 		Bullet shot = new Bullet();
-		shot.setPos(this.getPos());
-		shot.setVel(this.getDirection().multiply(400));
+		shot.setPos(this.getPos().add(this.getDirection().multiply(20)));
+		shot.setVel(this.getDirection().multiply(400).add(this.getVel()));
 		shot.setRotation(this.getRotation());
 		this.getModel().addShot(shot);
 	}

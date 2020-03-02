@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import powerups.Powerup;
 import ship.Bullet;
 import ship.Ship;
 import ship.StandardShip;
+import utilites.GameObject;
 import utilites.MyPoint;
 
 public class PlayModel {
@@ -42,13 +44,12 @@ public class PlayModel {
 		}
 	}
 	
-	public void update() {
-		this.removeUnseen();
-		System.out.println(this.shots);
-		this.ship.updateKinematics(1 / Constants.fps);
-		for (Bullet shot : this.shots) {
-			shot.updateKinematics(1/ Constants.fps);
-		}
+	public void update(double time) {
+		this.removeUnseen(this.shots);
+		this.ship.updateKinematics(time);
+		this.checkForWarp(this.ship);
+		updateCol(this.shots, time);
+	
 	}
 	
 	
@@ -70,7 +71,36 @@ public class PlayModel {
 		this.shots.add(shot);
 	}
 	
-	private void removeUnseen() {
-		this.shots.removeIf(shot -> !shot.getHitbox().intersects(this.visableArea));
+	private void removeUnseen(Collection<? extends GameObject> col) {
+		col.removeIf(shot -> !shot.getHitbox().intersects(this.visableArea));
 	}
+	
+	private static void updateCol(Collection<? extends GameObject> col, double time) {
+		for (GameObject element: col) {
+			element.updateKinematics(time);
+		}
+	}
+	
+	private void checkForWarp(GameObject obj) {
+		double visWidth = this.visableArea.getWidth();
+		double visHeight = this.visableArea.getHeight();
+		double objX = obj.getPos().getX();
+		double objY = obj.getPos().getY();
+		if (!obj.getHitbox().intersects(this.visableArea)) {
+			if (objX > visWidth) {
+				objX = 0;
+			}
+			if (objX < 0) {
+				objX = visWidth;
+			}
+			if (objY > visHeight) {
+				objY = 0;
+			}
+			if (objY < 0) {
+				objY = visHeight;
+			}
+			obj.setPos(new MyPoint(objX, objY));
+		}
+	}
+	
 }
