@@ -15,21 +15,16 @@ public class PlayState extends GameState {
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		/*
-		long now = System.currentTimeMillis();
-		double fps = calcFPS(now, this.lastUpdate);
-		this.lastUpdate = now;
-		g.drawString(String.format("FPS: %s", fps), (Constants.SCREEN_WIDTH / 2) - 200, Constants.SCREEN_HEIGHT / 2);
-		this.lastUpdate = System.currentTimeMillis();
-		*/
-		
+	public void draw(Graphics g) {	
 		this.data.draw(g);
 	}
 
 	@Override
 	public void update() {
-		this.data.update();
+		long now = System.currentTimeMillis();
+		double time = (now - this.lastUpdate) / 1000.0;
+		this.data.update(time);
+		this.lastUpdate = now;
 	}
 
 	@Override

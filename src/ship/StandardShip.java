@@ -1,4 +1,4 @@
-package ships;
+package ship;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -8,12 +8,13 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import asteroids.Asteroids;
+import level.PlayModel;
 import utilites.MyPoint;
 
 public class StandardShip extends Ship {
 	private BufferedImage image;
-	public StandardShip() {
-		super();
+	public StandardShip(PlayModel model) {
+		super(model);
 		this.image = Asteroids.loadImage(this.getClass().getResource("/assets/ship.png").getPath());
 	}
 
@@ -26,6 +27,7 @@ public class StandardShip extends Ship {
 	public BufferedImage getImg() {
 		return this.image;
 	}
+	
 	
 
 }

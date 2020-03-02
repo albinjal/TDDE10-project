@@ -1,5 +1,6 @@
 package utilites;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 public class MyPoint extends Point2D.Double {
@@ -34,5 +35,9 @@ public class MyPoint extends Point2D.Double {
 	
 	public double amount() {
 		return Math.sqrt(Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2));
+	}
+	
+	public Line2D asVector(MyPoint from) {
+		return new Line2D.Double(from, this);
 	}
 }

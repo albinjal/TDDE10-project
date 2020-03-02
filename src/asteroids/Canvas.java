@@ -22,10 +22,6 @@ public class Canvas extends JPanel {
 
 		this.addKeyListener(new KeyAdapter() {
 
-			/*
-			 * @Override public void keyPressed(KeyEvent e) { super.keyPressed(e);
-			 * model.keyPressed(e.getKeyCode()); }
-			 */
 
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -39,9 +35,9 @@ public class Canvas extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_D && !keys.contains(e.getKeyCode())) {
 					keys.add(e.getKeyCode());
 				}
-				/*if (e.getKeyCode() == KeyEvent.VK_SPACE && !keys.contains(e.getKeyCode())) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE && !keys.contains(e.getKeyCode())) {
 					keys.add(e.getKeyCode());
-				}*/
+				}
 				model.keyPressed(keys);
 			}
 
@@ -57,9 +53,9 @@ public class Canvas extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_D && keys.contains(e.getKeyCode())) {
 					keys.remove(new Integer(e.getKeyCode()));
 				}
-				/*if (e.getKeyCode() == KeyEvent.VK_SPACE && keys.contains(e.getKeyCode())) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys.contains(e.getKeyCode())) {
 					keys.remove(new Integer(e.getKeyCode()));
-				}*/
+				}
 				model.keyPressed(keys);
 			}
 
