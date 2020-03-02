@@ -8,7 +8,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import constants.Constants;
 import enemies.Enemy;
@@ -27,13 +29,13 @@ public class PlayModel {
 	private int points = 1;
 	private Map<Integer, Runnable> keyActions = new HashMap<Integer, Runnable>();
 	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-	private static Level[] levels = {new Level(1, 0)};
+	private static Level[] levels = {new Level(2, 0)};
 	
 	public PlayModel() {
 		this.ship = new StandardShip(this);
 		this.ship.setPos(new MyPoint(100, 500));
 		this.addActions();
-		this.loadLevel(levels[0], 5);
+		this.loadLevel(levels[0], 10);
 	}
 	
 	public void draw(Graphics g) {
@@ -45,6 +47,7 @@ public class PlayModel {
 	}
 	
 	public void update(double time) {
+		this.checkForCollisions();
 		this.removeUnseen(this.shots);
 		this.ship.updateKinematics(time);
 		this.checkForWarp(this.ship);
@@ -53,6 +56,7 @@ public class PlayModel {
 		}
 		updateCol(this.shots, time);
 		updateCol(this.enemies, time);
+		
 	
 	}
 	
@@ -115,6 +119,34 @@ public class PlayModel {
 	
 	private void loadLevel(Level level, double dificulty) {
 		this.enemies = level.loadEnemies(dificulty, this.visableArea);
+	}
+	
+	private void checkForCollisions() {
+		int i = 0;
+		Set<Integer> remove = new HashSet<Integer>();
+		for (Enemy enemy: this.enemies) {
+			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
+				this.ship = new StandardShip(this);
+			}
+			int k = 0;
+			Set<Integer> removeS = new HashSet<Integer>();
+			for (Bullet shot: this.shots) {
+				
+				if (shot.getHitbox().intersects(enemy.getHitbox().getBounds2D())) {
+					System.out.println(i);
+					remove.add(i);
+					removeS.add(k);
+				}
+				k++;
+			}
+			for (int del: removeS) {
+				this.shots.remove(del);
+			}
+			i++;
+		}
+		for (int del: remove) {
+			this.enemies.remove(del);
+		}
 	}
 	
 }

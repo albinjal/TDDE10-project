@@ -177,4 +177,5 @@ public abstract class GameObject {
 	public void setImg(String path) {
 		this.img = Asteroids.loadImage(this.getClass().getResource(path).getPath());
 	}
+	
 }
