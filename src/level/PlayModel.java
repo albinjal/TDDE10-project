@@ -12,6 +12,7 @@ import enemies.Enemy;
 import powerups.Powerup;
 import ships.Ship;
 import ships.StandardShip;
+import utilites.KeyMap;
 import utilites.MyPoint;
 
 public class PlayModel {
@@ -36,11 +37,21 @@ public class PlayModel {
 	}
 	
 	
-	public void keyPressed(int key) {
+	public void keyPressed(KeyMap keysPressed) {
+		//System.out.println(keysPressed);
+		for (Map.Entry<Integer, Boolean> entry : keysPressed.entrySet()) {
+			if (entry.getValue()) {
+				Runnable action = this.keyActions.get(entry.getKey());
+				action.run();
+			}
+		}
+		
+		/*
 		Runnable action = this.keyActions.get(key);
 		if (action != null) {
 			action.run();
 		}
+		*/
 	}
 	
 	private void addActions() {

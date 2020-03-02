@@ -3,6 +3,7 @@ package states;
 import java.awt.Graphics;
 
 import constants.GameStates;
+import utilites.KeyMap;
 
 public class GameModel {
 	private GameState activeState;
@@ -21,8 +22,8 @@ public class GameModel {
 		return null;
 	}
 	
-	public void keyPressed(int key) {
-        activeState.keyPressed(key);
+	public void keyPressed(KeyMap keysPressed) {
+        activeState.keyPressed(keysPressed);
     }
 
     

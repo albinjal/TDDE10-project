@@ -30,6 +30,7 @@ public abstract class Ship extends GameObject {
 	}
 	
 	public void accelerate() {
+		
 		this.addVel(this.getDirection().multiply(10));
 	}
 	

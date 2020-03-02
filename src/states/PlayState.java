@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import constants.Constants;
 import level.PlayModel;
+import utilites.KeyMap;
 
 public class PlayState extends GameState {
 	private PlayModel data = new PlayModel();
@@ -32,8 +33,8 @@ public class PlayState extends GameState {
 	}
 
 	@Override
-	public void keyPressed(int key) {
-		this.data.keyPressed(key);
+	public void keyPressed(KeyMap keysPressed) {
+		this.data.keyPressed(keysPressed);
 	}
 	
 	public static int calcFPS(long now, long last) {

@@ -100,13 +100,9 @@ public abstract class GameObject {
 		this.velocity = this.velocity.add(vel);
 	}
 	
-
-	
 	private void resist(double time) {
 		this.velocity = this.velocity.subtract(this.velocity.multiply(time * this.resistance));
 	}
-	
-
 	
 	public abstract Shape getHitboxShape();
 	
