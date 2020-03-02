@@ -81,6 +81,10 @@ public abstract class GameObject {
 		return trans;
 	}
 	
+	public void setVel(MyPoint vel) {
+		this.velocity = vel;
+	}
+	
 	
 	public MyPoint getDirection() {
 		return new MyPoint(Math.cos(this.rotation), Math.sin(this.rotation));
@@ -98,6 +102,36 @@ public abstract class GameObject {
 	
 	public void addVel(MyPoint vel) {
 		this.velocity = this.velocity.add(vel);
+	}
+	
+	public void showDirection(Graphics2D g) {
+		g.draw(this.vectorFromCenter(this.getDirection().multiply(100)));
+	}
+	
+	public void showVelocity(Graphics2D g) {
+		g.draw(this.vectorFromCenter(this.velocity));
+	}
+	
+	public void setRotation(double rot) {
+		this.rotation = rot;
+	}
+	
+	public double getRotation() {
+		return this.rotation;
+	}
+	
+	public void draw(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		// this.drawHitbox(g2d);
+		this.drawImage(g2d);
+		// this.showVelocity(g2d);
+		// this.showDirection(g2d);
+	}
+	
+	private Shape vectorFromCenter(MyPoint point) {
+		MyPoint center = this.getPos();
+		MyPoint edge = center.relativePoint(point.getX(), point.getY());
+		return edge.asVector(center);
 	}
 	
 
