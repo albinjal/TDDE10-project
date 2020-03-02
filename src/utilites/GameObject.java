@@ -120,9 +120,8 @@ public abstract class GameObject {
 		return this.rotation;
 	}
 	
-	public void draw(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		// this.drawHitbox(g2d);
+	public void draw(Graphics g2d) {
+		this.drawHitbox(g2d);
 		this.drawImage(g2d);
 		// this.showVelocity(g2d);
 		// this.showDirection(g2d);

@@ -1,8 +1,10 @@
 package level;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,8 @@ public class PlayModel {
 	private ArrayList<Bullet> shots = new ArrayList<Bullet>();
 	private int points = 1;
 	private Map<Integer, Runnable> keyActions = new HashMap<Integer, Runnable>();
+	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+	
 	public PlayModel() {
 		this.ship = new StandardShip(this);
 		this.ship.setPos(new MyPoint(100, 500));
@@ -30,13 +34,17 @@ public class PlayModel {
 	}
 	
 	public void draw(Graphics g) {
-		ship.draw(g);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.draw(this.visableArea);
+		ship.draw(g2);
 		for (Bullet shot : this.shots) {
-			shot.draw(g);
+			shot.draw(g2);
 		}
 	}
 	
 	public void update() {
+		this.removeUnseen();
+		System.out.println(this.shots);
 		this.ship.updateKinematics(1 / Constants.fps);
 		for (Bullet shot : this.shots) {
 			shot.updateKinematics(1/ Constants.fps);
@@ -60,5 +68,9 @@ public class PlayModel {
 	
 	public void addShot(Bullet shot) {
 		this.shots.add(shot);
+	}
+	
+	private void removeUnseen() {
+		this.shots.removeIf(shot -> !shot.getHitbox().intersects(this.visableArea));
 	}
 }
