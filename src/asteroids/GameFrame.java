@@ -1,5 +1,7 @@
 package asteroids;
 
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 
 import states.GameModel;

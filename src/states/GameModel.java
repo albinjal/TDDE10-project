@@ -1,9 +1,9 @@
 package states;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import constants.GameStates;
-import utilites.KeyMap;
 
 public class GameModel {
 	private GameState activeState;
@@ -22,8 +22,8 @@ public class GameModel {
 		return null;
 	}
 	
-	public void keyPressed(KeyMap keysPressed) {
-        activeState.keyPressed(keysPressed);
+	public void keyPressed(ArrayList<Integer> keys) {
+        activeState.keyPressed(keys);
     }
 
     

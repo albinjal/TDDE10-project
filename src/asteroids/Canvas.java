@@ -8,12 +8,10 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import states.GameModel;
-import utilites.KeyMap;
 import constants.Constants;
 
 public class Canvas extends JPanel {
-
-	private KeyMap keysPressed = new KeyMap();
+	private ArrayList<Integer> keys = new ArrayList<Integer>();
 	private GameModel model;
 
 	public Canvas(final GameModel model) {
@@ -25,41 +23,46 @@ public class Canvas extends JPanel {
 		this.addKeyListener(new KeyAdapter() {
 
 			/*
-			 * @Override public void keyPressed(KeyEvent e) { 
-			 * super.keyPressed(e);
+			 * @Override public void keyPressed(KeyEvent e) { super.keyPressed(e);
 			 * model.keyPressed(e.getKeyCode()); }
 			 */
-			
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				super.keyPressed(e);
-				if (e.getKeyCode() == KeyEvent.VK_W)
-					keysPressed.replace(e.getKeyCode(), true);
-				if (e.getKeyCode() == KeyEvent.VK_A)
-					keysPressed.replace(e.getKeyCode(), true);
-				if (e.getKeyCode() == KeyEvent.VK_D)
-					keysPressed.replace(e.getKeyCode(), true);
-				if (e.getKeyCode() == KeyEvent.VK_SPACE)
-					keysPressed.replace(e.getKeyCode(), true);
-				model.keyPressed(keysPressed);
-				System.out.println(keysPressed);
-
+				if (e.getKeyCode() == KeyEvent.VK_W && !keys.contains(e.getKeyCode())) {
+					keys.add(e.getKeyCode());
+				}
+				if (e.getKeyCode() == KeyEvent.VK_A && !keys.contains(e.getKeyCode())) {
+					keys.add(e.getKeyCode());
+				}
+				if (e.getKeyCode() == KeyEvent.VK_D && !keys.contains(e.getKeyCode())) {
+					keys.add(e.getKeyCode());
+				}
+				/*if (e.getKeyCode() == KeyEvent.VK_SPACE && !keys.contains(e.getKeyCode())) {
+					keys.add(e.getKeyCode());
+				}*/
+				model.keyPressed(keys);
 			}
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				super.keyReleased(e);
-				if (e.getKeyCode() == KeyEvent.VK_W)
-					keysPressed.replace(e.getKeyCode(), false);
-				if (e.getKeyCode() == KeyEvent.VK_A)
-					keysPressed.replace(e.getKeyCode(), false);
-				if (e.getKeyCode() == KeyEvent.VK_D)
-					keysPressed.replace(e.getKeyCode(), false);
-				if (e.getKeyCode() == KeyEvent.VK_SPACE)
-					keysPressed.replace(e.getKeyCode(), false);
-				model.keyPressed(keysPressed);
+				if (e.getKeyCode() == KeyEvent.VK_W && keys.contains(e.getKeyCode())) {
+					keys.remove(new Integer(e.getKeyCode()));
+				}
+				if (e.getKeyCode() == KeyEvent.VK_A && keys.contains(e.getKeyCode())) {
+					keys.remove(new Integer(e.getKeyCode()));
+				}
+				if (e.getKeyCode() == KeyEvent.VK_D && keys.contains(e.getKeyCode())) {
+					keys.remove(new Integer(e.getKeyCode()));
+				}
+				/*if (e.getKeyCode() == KeyEvent.VK_SPACE && keys.contains(e.getKeyCode())) {
+					keys.remove(new Integer(e.getKeyCode()));
+				}*/
+				model.keyPressed(keys);
 			}
-			
+
 		});
 
 	}
