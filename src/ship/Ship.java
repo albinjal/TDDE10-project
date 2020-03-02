@@ -20,35 +20,44 @@ import utilites.MyPoint;
 
 public abstract class Ship extends GameObject {
 	private PlayModel model;
+	private Integer bulletIntencity = 10;
+	private Integer bulletTemp;
+
+
 	public Ship(PlayModel model) {
 		super();
 		this.model = model;
 		this.setResistance(0.3);
+		this.bulletTemp = this.bulletIntencity;
 	}
-	
+
 	public void accelerate() {
-		this.addVel(this.getDirection().multiply(20));
+		this.addVel(this.getDirection().multiply(10));
 	}
-	
+
 	public void turnRight() {
-		this.rotate(1000 / Constants.fps);
+		this.rotate(600 / Constants.fps);
 	}
-	
+
 	public void turnLeft() {
-		this.rotate(-1000 / Constants.fps);
+		this.rotate(-600 / Constants.fps);
 
 	}
-	
+
 	public PlayModel getModel() {
 		return this.model;
 	}
-	
+
 	public void fire() {
-		Bullet shot = new Bullet();
-		shot.setPos(this.getPos().add(this.getDirection().multiply(20)));
-		shot.setVel(this.getDirection().multiply(400).add(this.getVel()));
-		shot.setRotation(this.getRotation());
-		this.getModel().addShot(shot);
+		if (this.bulletTemp == bulletIntencity) {
+			Bullet shot = new Bullet();
+			shot.setPos(this.getPos().add(this.getDirection().multiply(20)));
+			shot.setVel(this.getDirection().multiply(1000).add(this.getVel()));
+			shot.setRotation(this.getRotation());
+			this.getModel().addShot(shot);
+			this.bulletTemp = 0;
+		}
+		this.bulletTemp ++;
 	}
 
 }

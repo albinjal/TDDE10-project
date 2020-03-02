@@ -2,6 +2,8 @@ package states;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+
 import static constants.Constants.SCREEN_HEIGHT;
 import static constants.Constants.SCREEN_WIDTH;
 
@@ -17,7 +19,7 @@ public abstract class GameState {
 	
 	public abstract void update();
 	
-	public abstract void keyPressed(int key);
+	public abstract void keyPressed(ArrayList<Integer> keys);
 	
     public void drawBg(Graphics g, Color color) {
         g.setColor(color);

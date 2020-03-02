@@ -28,16 +28,19 @@ public class PlayModel {
 	private ArrayList<Bullet> shots = new ArrayList<Bullet>();
 	private int points = 1;
 	private Map<Integer, Runnable> keyActions = new HashMap<Integer, Runnable>();
-	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-	private static Level[] levels = {new Level(2, 0)};
-	
+	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH,
+			Constants.SCREEN_HEIGHT);
+	private static Level[] levels = { new Level(2, 0) };
+
+	private ArrayList<Integer> keys = new ArrayList<Integer>();
+
 	public PlayModel() {
 		this.ship = new StandardShip(this);
 		this.ship.setPos(new MyPoint(100, 500));
 		this.addActions();
 		this.loadLevel(levels[0], 10);
 	}
-	
+
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.draw(this.visableArea);
@@ -45,56 +48,56 @@ public class PlayModel {
 		drawCol(this.enemies, g2);
 		drawCol(this.shots, g2);
 	}
-	
+
 	public void update(double time) {
 		this.checkForCollisions();
 		this.removeUnseen(this.shots);
 		this.ship.updateKinematics(time);
 		this.checkForWarp(this.ship);
-		for (Enemy enemy: this.enemies) {
+		for (Enemy enemy : this.enemies) {
 			this.checkForWarp(enemy);
 		}
 		updateCol(this.shots, time);
 		updateCol(this.enemies, time);
-		
-	
-	}
-	
-	
-	public void keyPressed(int key) {
-		Runnable action = this.keyActions.get(key);
-		if (action != null) {
+		for (int key : keys) {
+			Runnable action = this.keyActions.get(key);
 			action.run();
+			this.ship.updateKinematics(1 / Constants.fps);
 		}
+
 	}
-	
+
+	public void keyPressed(ArrayList<Integer> keys) {
+		this.keys = keys;
+	}
+
 	private void addActions() {
 		this.keyActions.put(KeyEvent.VK_W, () -> this.ship.accelerate());
 		this.keyActions.put(KeyEvent.VK_A, () -> this.ship.turnLeft());
 		this.keyActions.put(KeyEvent.VK_D, () -> this.ship.turnRight());
 		this.keyActions.put(KeyEvent.VK_SPACE, () -> this.ship.fire());
 	}
-	
+
 	public void addShot(Bullet shot) {
 		this.shots.add(shot);
 	}
-	
+
 	private void removeUnseen(Collection<? extends GameObject> col) {
 		col.removeIf(shot -> !shot.getHitbox().intersects(this.visableArea));
 	}
-	
+
 	private static void updateCol(Collection<? extends GameObject> col, double time) {
-		for (GameObject element: col) {
+		for (GameObject element : col) {
 			element.updateKinematics(time);
 		}
 	}
-	
+
 	private static void drawCol(Collection<? extends GameObject> col, Graphics2D g) {
-		for (GameObject obj: col) {
+		for (GameObject obj : col) {
 			obj.draw(g);
 		}
 	}
-	
+
 	private void checkForWarp(GameObject obj) {
 		double visWidth = this.visableArea.getMaxX();
 		double visHeight = this.visableArea.getMaxY();
@@ -116,37 +119,36 @@ public class PlayModel {
 			obj.setPos(new MyPoint(objX, objY));
 		}
 	}
-	
+
 	private void loadLevel(Level level, double dificulty) {
 		this.enemies = level.loadEnemies(dificulty, this.visableArea);
 	}
-	
+
 	private void checkForCollisions() {
 		int i = 0;
 		Set<Integer> remove = new HashSet<Integer>();
-		for (Enemy enemy: this.enemies) {
+		for (Enemy enemy : this.enemies) {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
-				this.ship = new StandardShip(this);
+				// this.ship = new StandardShip(this);
 			}
 			int k = 0;
 			Set<Integer> removeS = new HashSet<Integer>();
-			for (Bullet shot: this.shots) {
-				
+			for (Bullet shot : this.shots) {
+
 				if (shot.getHitbox().intersects(enemy.getHitbox().getBounds2D())) {
-					System.out.println(i);
 					remove.add(i);
 					removeS.add(k);
 				}
 				k++;
 			}
-			for (int del: removeS) {
+			for (int del : removeS) {
 				this.shots.remove(del);
 			}
 			i++;
 		}
-		for (int del: remove) {
+		for (int del : remove) {
 			this.enemies.remove(del);
 		}
 	}
-	
+
 }

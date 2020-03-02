@@ -1,6 +1,7 @@
 package states;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import constants.Constants;
 import level.PlayModel;
@@ -27,8 +28,8 @@ public class PlayState extends GameState {
 	}
 
 	@Override
-	public void keyPressed(int key) {
-		this.data.keyPressed(key);
+	public void keyPressed(ArrayList<Integer> keys) {
+		this.data.keyPressed(keys);
 	}
 	
 	public static int calcFPS(long now, long last) {
