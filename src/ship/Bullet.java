@@ -8,19 +8,13 @@ import asteroids.Asteroids;
 import utilites.GameObject;
 
 public class Bullet extends GameObject {
-	private BufferedImage image;
 	public Bullet() {
-		this.image = Asteroids.loadImage(this.getClass().getResource("/assets/laser_bullet.png").getPath());
+		this.setImg("/assets/laser_bullet.png");
 	}
 
 	@Override
 	public Shape getHitboxShape() {
 		return new Rectangle2D.Double(0,0, 40, 10);
-	}
-
-	@Override
-	public BufferedImage getImg() {
-		return this.image;
 	}
 
 }

@@ -27,28 +27,32 @@ public class PlayModel {
 	private int points = 1;
 	private Map<Integer, Runnable> keyActions = new HashMap<Integer, Runnable>();
 	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+	private static Level[] levels = {new Level(1, 0)};
 	
 	public PlayModel() {
 		this.ship = new StandardShip(this);
 		this.ship.setPos(new MyPoint(100, 500));
 		this.addActions();
-		
+		this.loadLevel(levels[0], 5);
 	}
 	
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.draw(this.visableArea);
 		ship.draw(g2);
-		for (Bullet shot : this.shots) {
-			shot.draw(g2);
-		}
+		drawCol(this.enemies, g2);
+		drawCol(this.shots, g2);
 	}
 	
 	public void update(double time) {
 		this.removeUnseen(this.shots);
 		this.ship.updateKinematics(time);
 		this.checkForWarp(this.ship);
+		for (Enemy enemy: this.enemies) {
+			this.checkForWarp(enemy);
+		}
 		updateCol(this.shots, time);
+		updateCol(this.enemies, time);
 	
 	}
 	
@@ -81,9 +85,15 @@ public class PlayModel {
 		}
 	}
 	
+	private static void drawCol(Collection<? extends GameObject> col, Graphics2D g) {
+		for (GameObject obj: col) {
+			obj.draw(g);
+		}
+	}
+	
 	private void checkForWarp(GameObject obj) {
-		double visWidth = this.visableArea.getWidth();
-		double visHeight = this.visableArea.getHeight();
+		double visWidth = this.visableArea.getMaxX();
+		double visHeight = this.visableArea.getMaxY();
 		double objX = obj.getPos().getX();
 		double objY = obj.getPos().getY();
 		if (!obj.getHitbox().intersects(this.visableArea)) {
@@ -101,6 +111,10 @@ public class PlayModel {
 			}
 			obj.setPos(new MyPoint(objX, objY));
 		}
+	}
+	
+	private void loadLevel(Level level, double dificulty) {
+		this.enemies = level.loadEnemies(dificulty, this.visableArea);
 	}
 	
 }

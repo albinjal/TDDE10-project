@@ -40,4 +40,8 @@ public class MyPoint extends Point2D.Double {
 	public Line2D asVector(MyPoint from) {
 		return new Line2D.Double(from, this);
 	}
+	
+	public MyPoint normalize() {
+		return this.multiply(1 / this.amount());
+	}
 }

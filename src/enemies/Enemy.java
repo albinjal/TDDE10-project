@@ -1,9 +1,11 @@
 package enemies;
 
-public abstract class Enemy {
+import utilites.GameObject;
+
+public abstract class Enemy extends GameObject {
 
 	public Enemy() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 }
