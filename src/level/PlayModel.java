@@ -32,8 +32,6 @@ public class PlayModel {
 			Constants.SCREEN_HEIGHT);
 	private static Level[] levels = { new Level(2, 0, 1) };
 
-	private ArrayList<Integer> keys = new ArrayList<Integer>();
-
 	public PlayModel() {
 		this.ship = new StandardShip(this);
 		this.ship.setPos(new MyPoint(100, 500));
@@ -50,7 +48,7 @@ public class PlayModel {
 		drawCol(this.powerups, g2);
 	}
 
-	public void update(double time) {
+	public void update(double time, Set<Integer> keys) {
 		this.checkForAsteroidCollisions();
 		this.checkForPwrUpCollisions();
 		this.removeUnseen(this.shots);
@@ -68,13 +66,12 @@ public class PlayModel {
 		updateCol(this.powerups, time);
 		for (int key : keys) {
 			Runnable action = this.keyActions.get(key);
-			action.run();
+			if (action != null) {
+				action.run();
+			}
+			
 		}
 
-	}
-
-	public void keyPressed(ArrayList<Integer> keys) {
-		this.keys = keys;
 	}
 
 	private void addActions() {
@@ -134,25 +131,25 @@ public class PlayModel {
 	private void checkForAsteroidCollisions() {
 		int i = 0;
 		Set<Integer> remove = new HashSet<Integer>();
+		Set<Integer> removeS = new HashSet<Integer>();
 		for (Enemy enemy : this.enemies) {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
 				this.ship = new StandardShip(this);
 			}
 			int k = 0;
-			Set<Integer> removeS = new HashSet<Integer>();
+			
 			for (Bullet shot : this.shots) {
-				//TODO: getBounds2D on both? wasn't before..
-				// Nej ^^
-				if (shot.getHitbox().getBounds2D().intersects(enemy.getHitbox().getBounds2D())) {
+				if (shot.getHitbox().intersects(enemy.getHitbox().getBounds2D())) {
 					remove.add(i);
 					removeS.add(k);
 				}
 				k++;
 			}
-			for (int del : removeS) {
-				this.shots.remove(del);
-			}
+			
 			i++;
+		}
+		for (int del : removeS) {
+			this.shots.remove(del);
 		}
 		for (int del : remove) {
 			this.enemies.remove(del);
@@ -163,7 +160,7 @@ public class PlayModel {
 		int i = 0;
 		Set<Integer> remove = new HashSet<Integer>();
 		for (Powerup pwrUp : this.powerups) {
-			if (pwrUp.getHitbox().getBounds2D().intersects(this.ship.getHitbox().getBounds2D())) {
+			if (pwrUp.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
 				pwrUp.usePwr(this.ship);
 				remove.add(i);
 			}

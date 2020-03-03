@@ -2,11 +2,15 @@ package states;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import constants.GameStates;
 
 public class GameModel {
 	private GameState activeState;
+	private Set<Integer> keys = new HashSet<Integer>();
+	private boolean reactedToKeys = true;
 	public GameModel() {
 		this.swtichState(GameStates.Play);
 	}
@@ -22,13 +26,19 @@ public class GameModel {
 		return null;
 	}
 	
-	public void keyPressed(ArrayList<Integer> keys) {
-        activeState.keyPressed(keys);
-    }
 
     
     public void update() {
-    	activeState.update();
+    	activeState.update(this.keys);
+    	this.reactedToKeys = true;
+    }
+    
+    public void setKeys(Set<Integer> keys) {
+    	if (this.reactedToKeys) {
+    		this.keys = keys;
+    		this.reactedToKeys = false;
+    	}
+    	
     }
 
     

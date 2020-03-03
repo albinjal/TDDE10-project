@@ -50,16 +50,9 @@ public abstract class Ship extends GameObject {
 	}
 
 	public void fire() {
-		if (this.bulletTemp == bulletIntencity) {
-			Bullet shot = new Bullet();
-			shot.setPos(this.getPos().add(this.getDirection().multiply(20)));
-			shot.setVel(this.getDirection().multiply(1000).add(this.getVel()));
-			shot.setRotation(this.getRotation());
-			this.getModel().addShot(shot);
-			this.bulletTemp = 0;
-		}
-		this.bulletTemp ++;
+		this.shoot();
 	}
+	
 	
 	public void setBulletI(int intencity, int Duration) {
 		this.bulletIntencity =  intencity;
@@ -69,11 +62,19 @@ public abstract class Ship extends GameObject {
 	
 	public void updatePwrUpDur() {
 		if (this.pwrUpDur > 0) {
-			this.pwrUpDur --;
+			this.pwrUpDur--;
 			if (this.pwrUpDur == 0) {
 				this.bulletIntencity = 10;
 			}
 		}
+	}
+	
+	private void shoot() {
+		Bullet shot = new Bullet();
+		shot.setPos(this.getPos().add(this.getDirection().multiply(20)));
+		shot.setVel(this.getDirection().multiply(1000).add(this.getVel()));
+		shot.setRotation(this.getRotation());
+		this.getModel().addShot(shot);
 	}
 
 }
