@@ -137,12 +137,15 @@ public class PlayModel {
 		Set<Integer> remove = new HashSet<Integer>();
 		for (Enemy enemy : this.enemies) {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
-				this.ship = new StandardShip(this);
+				if (!this.ship.getShieldStatus()) {
+					this.ship = new StandardShip(this);
+				} else {
+					remove.add(i);
+				}
 			}
 			int k = 0;
 			Set<Integer> removeS = new HashSet<Integer>();
 			for (Bullet shot : this.shots) {
-				//TODO: getBounds2D on both? wasn't before..
 				if (shot.getHitbox().getBounds2D().intersects(enemy.getHitbox().getBounds2D())) {
 					remove.add(i);
 					removeS.add(k);
