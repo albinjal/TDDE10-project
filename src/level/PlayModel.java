@@ -69,7 +69,6 @@ public class PlayModel {
 		for (int key : keys) {
 			Runnable action = this.keyActions.get(key);
 			action.run();
-			this.ship.updateKinematics(1 / Constants.fps);
 		}
 
 	}
@@ -146,7 +145,8 @@ public class PlayModel {
 			int k = 0;
 			Set<Integer> removeS = new HashSet<Integer>();
 			for (Bullet shot : this.shots) {
-				if (shot.getHitbox().getBounds2D().intersects(enemy.getHitbox().getBounds2D())) {
+
+				if (shot.getHitbox().intersects(enemy.getHitbox().getBounds2D())) {
 					remove.add(i);
 					removeS.add(k);
 				}
@@ -166,7 +166,7 @@ public class PlayModel {
 		int i = 0;
 		Set<Integer> remove = new HashSet<Integer>();
 		for (Powerup pwrUp : this.powerups) {
-			if (pwrUp.getHitbox().getBounds2D().intersects(this.ship.getHitbox().getBounds2D())) {
+			if (pwrUp.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
 				pwrUp.usePwr(this.ship);
 				remove.add(i);
 			}
