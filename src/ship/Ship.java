@@ -49,7 +49,7 @@ public abstract class Ship extends GameObject {
 	}
 
 	public void fire() {
-		if (this.bulletTemp == bulletIntencity) {
+		if (this.bulletTemp == (20 - bulletIntencity)) {
 			Bullet shot = new Bullet();
 			shot.setPos(this.getPos().add(this.getDirection().multiply(20)));
 			shot.setVel(this.getDirection().multiply(1000).add(this.getVel()));

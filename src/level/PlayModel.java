@@ -52,6 +52,7 @@ public class PlayModel {
 
 	public void update(double time) {
 		this.checkForAsteroidCollisions();
+		this.checkForPwrUpCollisions();
 		this.removeUnseen(this.shots);
 		this.ship.updateKinematics(time);
 		this.checkForWarp(this.ship);
@@ -161,6 +162,7 @@ public class PlayModel {
 		int i = 0;
 		for (Powerup pwrUp : this.powerups) {
 			if (pwrUp.getHitbox().getBounds2D().intersects(this.ship.getHitbox().getBounds2D())) {
+				pwrUp.usePwr(this.ship);
 			}
 			i++;
 		}
