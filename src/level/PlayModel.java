@@ -54,8 +54,9 @@ public class PlayModel {
 		this.checkForAsteroidCollisions();
 		this.checkForPwrUpCollisions();
 		this.removeUnseen(this.shots);
-		this.checkForWarp(this.ship);
 		this.ship.updateKinematics(time);
+		this.ship.updatePwrUpDur();
+		this.checkForWarp(this.ship);
 		for (Enemy enemy : this.enemies) {
 			this.checkForWarp(enemy);
 		}
@@ -160,11 +161,16 @@ public class PlayModel {
 	
 	private void checkForPwrUpCollisions() {
 		int i = 0;
+		Set<Integer> remove = new HashSet<Integer>();
 		for (Powerup pwrUp : this.powerups) {
 			if (pwrUp.getHitbox().getBounds2D().intersects(this.ship.getHitbox().getBounds2D())) {
 				pwrUp.usePwr(this.ship);
+				remove.add(i);
 			}
 			i++;
+		}
+		for (int del : remove) {
+			this.powerups.remove(del);
 		}
 	}
 
