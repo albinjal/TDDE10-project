@@ -1,21 +1,25 @@
 package level;
 
 import java.awt.geom.Rectangle2D;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 import constants.Constants;
 import enemies.Asteroid;
 import enemies.Enemy;
+import powerups.Powerup;
 import utilites.MyPoint;
 
 public class Level {
 	private static Random generator = new Random();
 	private int asteroids;
 	private int rockets;
-	public Level(int asteroids, int rockets) {
+	private int powerups;
+	public Level(int asteroids, int rockets, int powerups) {
 		this.asteroids = asteroids;
 		this.rockets = rockets;
+		this.powerups = powerups;
 	}
 	
 	public ArrayList<Enemy> loadEnemies(double dificulty, Rectangle2D outline) {
@@ -28,6 +32,19 @@ public class Level {
 			ast.setVel(vel);
 			ast.setDirection(vel);
 			list.add(ast);
+		}
+		return list;
+	}
+	
+	public ArrayList<Powerup> loadPowerups(double dificulty, Rectangle2D outline) {
+		ArrayList<Powerup> list = new ArrayList<Powerup>();
+		for (int i = 0; i < this.powerups; i++) {
+			Powerup pwrUp = new Powerup();
+			pwrUp.setPos(generatePos(outline));
+			MyPoint vel = generateVel(dificulty);
+			pwrUp.setVel(vel);
+			pwrUp.setDirection(vel);
+			list.add(pwrUp);
 		}
 		return list;
 	}

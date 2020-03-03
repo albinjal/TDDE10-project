@@ -59,5 +59,9 @@ public abstract class Ship extends GameObject {
 		}
 		this.bulletTemp ++;
 	}
+	
+	public void setBulletI(int intencity) {
+		this.bulletIntencity =  intencity;
+	}
 
 }

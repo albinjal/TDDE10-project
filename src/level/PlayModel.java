@@ -30,7 +30,7 @@ public class PlayModel {
 	private Map<Integer, Runnable> keyActions = new HashMap<Integer, Runnable>();
 	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH,
 			Constants.SCREEN_HEIGHT);
-	private static Level[] levels = { new Level(2, 0) };
+	private static Level[] levels = { new Level(2, 0, 1) };
 
 	private ArrayList<Integer> keys = new ArrayList<Integer>();
 
@@ -47,18 +47,23 @@ public class PlayModel {
 		ship.draw(g2);
 		drawCol(this.enemies, g2);
 		drawCol(this.shots, g2);
+		drawCol(this.powerups, g2);
 	}
 
 	public void update(double time) {
-		this.checkForCollisions();
+		this.checkForAsteroidCollisions();
 		this.removeUnseen(this.shots);
 		this.ship.updateKinematics(time);
 		this.checkForWarp(this.ship);
 		for (Enemy enemy : this.enemies) {
 			this.checkForWarp(enemy);
 		}
+		for (Powerup pwrUp : this.powerups) {
+			this.checkForWarp(pwrUp);
+		}
 		updateCol(this.shots, time);
 		updateCol(this.enemies, time);
+		updateCol(this.powerups, time);
 		for (int key : keys) {
 			Runnable action = this.keyActions.get(key);
 			action.run();
@@ -122,20 +127,21 @@ public class PlayModel {
 
 	private void loadLevel(Level level, double dificulty) {
 		this.enemies = level.loadEnemies(dificulty, this.visableArea);
+		this.powerups = level.loadPowerups(dificulty, this.visableArea);
 	}
 
-	private void checkForCollisions() {
+	private void checkForAsteroidCollisions() {
 		int i = 0;
 		Set<Integer> remove = new HashSet<Integer>();
 		for (Enemy enemy : this.enemies) {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
-				// this.ship = new StandardShip(this);
+				this.ship = new StandardShip(this);
 			}
 			int k = 0;
 			Set<Integer> removeS = new HashSet<Integer>();
 			for (Bullet shot : this.shots) {
-
-				if (shot.getHitbox().intersects(enemy.getHitbox().getBounds2D())) {
+				//TODO: getBounds2D on both? wasn't before..
+				if (shot.getHitbox().getBounds2D().intersects(enemy.getHitbox().getBounds2D())) {
 					remove.add(i);
 					removeS.add(k);
 				}
@@ -148,6 +154,15 @@ public class PlayModel {
 		}
 		for (int del : remove) {
 			this.enemies.remove(del);
+		}
+	}
+	
+	private void checkForPwrUpCollisions() {
+		int i = 0;
+		for (Powerup pwrUp : this.powerups) {
+			if (pwrUp.getHitbox().getBounds2D().intersects(this.ship.getHitbox().getBounds2D())) {
+			}
+			i++;
 		}
 	}
 
