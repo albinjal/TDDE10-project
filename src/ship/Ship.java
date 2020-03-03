@@ -20,8 +20,9 @@ import utilites.MyPoint;
 
 public abstract class Ship extends GameObject {
 	private PlayModel model;
-	private Integer bulletIntencity = 10;
-	private Integer bulletTemp;
+	private int bulletIntencity = 10;
+	private int bulletTemp;
+	private int pwrUpDur = 0;
 
 
 	public Ship(PlayModel model) {
@@ -49,7 +50,7 @@ public abstract class Ship extends GameObject {
 	}
 
 	public void fire() {
-		if (this.bulletTemp == (20 - bulletIntencity)) {
+		if (this.bulletTemp == bulletIntencity) {
 			Bullet shot = new Bullet();
 			shot.setPos(this.getPos().add(this.getDirection().multiply(20)));
 			shot.setVel(this.getDirection().multiply(1000).add(this.getVel()));
@@ -60,8 +61,19 @@ public abstract class Ship extends GameObject {
 		this.bulletTemp ++;
 	}
 	
-	public void setBulletI(int intencity) {
+	public void setBulletI(int intencity, int Duration) {
 		this.bulletIntencity =  intencity;
+		this.pwrUpDur = Duration * 60;
+
+	}
+	
+	public void updatePwrUpDur() {
+		if (this.pwrUpDur > 0) {
+			this.pwrUpDur --;
+			if (this.pwrUpDur == 0) {
+				this.bulletIntencity = 10;
+			}
+		}
 	}
 
 }

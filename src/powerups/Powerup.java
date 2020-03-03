@@ -23,8 +23,7 @@ public class Powerup extends GameObject {
 		int randomNum = ThreadLocalRandom.current().nextInt(1, 3 + 1);
 		
 		switch (randomNum) {
-		case 1: ship.setBulletI(20);
-		System.out.println("shooots");;
+		case 1: ship.setBulletI(5, 10);
 		}
 	}
 
