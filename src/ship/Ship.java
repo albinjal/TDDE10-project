@@ -23,6 +23,7 @@ public abstract class Ship extends GameObject {
 	private int bulletIntencity = 10;
 	private int bulletTemp;
 	private int pwrUpDur = 0;
+	private Boolean shield = false;
 
 
 	public Ship(PlayModel model) {
@@ -53,11 +54,19 @@ public abstract class Ship extends GameObject {
 		this.shoot();
 	}
 	
-	
-	public void setBulletI(int intencity, int Duration) {
+	public void setBulletI(int intencity, int duration) {
 		this.bulletIntencity =  intencity;
-		this.pwrUpDur = Duration * 60;
+		this.pwrUpDur = duration * 60;
 
+	}
+	
+	public void setShield(int duration) {
+		this.shield = true;
+		this.pwrUpDur = duration * 60;
+	}
+	
+	public Boolean getShieldStatus() {
+		return this.shield;
 	}
 	
 	public void updatePwrUpDur() {
@@ -65,6 +74,7 @@ public abstract class Ship extends GameObject {
 			this.pwrUpDur--;
 			if (this.pwrUpDur == 0) {
 				this.bulletIntencity = 10;
+				this.shield = false;
 			}
 		}
 	}
