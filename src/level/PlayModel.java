@@ -54,8 +54,8 @@ public class PlayModel {
 		this.checkForAsteroidCollisions();
 		this.checkForPwrUpCollisions();
 		this.removeUnseen(this.shots);
-		this.ship.updateKinematics(time);
 		this.checkForWarp(this.ship);
+		this.ship.updateKinematics(time);
 		for (Enemy enemy : this.enemies) {
 			this.checkForWarp(enemy);
 		}
@@ -68,7 +68,6 @@ public class PlayModel {
 		for (int key : keys) {
 			Runnable action = this.keyActions.get(key);
 			action.run();
-			this.ship.updateKinematics(1 / Constants.fps);
 		}
 
 	}
@@ -142,6 +141,7 @@ public class PlayModel {
 			Set<Integer> removeS = new HashSet<Integer>();
 			for (Bullet shot : this.shots) {
 				//TODO: getBounds2D on both? wasn't before..
+				// Nej ^^
 				if (shot.getHitbox().getBounds2D().intersects(enemy.getHitbox().getBounds2D())) {
 					remove.add(i);
 					removeS.add(k);
