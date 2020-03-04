@@ -30,7 +30,7 @@ public class PlayModel {
 	private Map<Integer, Runnable> keyActions = new HashMap<Integer, Runnable>();
 	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH,
 			Constants.SCREEN_HEIGHT);
-	private static Level[] levels = { new Level(2, 2, 1) };
+	private static Level[] levels = { new Level(2, 2, 1, 1) };
 
 	public PlayModel() {
 		this.ship = new StandardShip(this);
@@ -58,16 +58,16 @@ public class PlayModel {
 			
 		});
 		actions.forEach(action -> action.run());
-		this.checkForAsteroidCollisions();
-		this.checkForPwrUpCollisions();
+		this.checkForEnemyCollisions();
+		this.checkForPowerUpCollisions();
+		this.ship.updatePowerUps(time);
 		this.removeUnseen(this.shots);
 		this.ship.updateKinematics(time, this.ship);
-		this.ship.updatePwrUpDur();
 		this.checkForWarp(this.ship);
 		for (Enemy enemy : this.enemies) {
 			this.checkForWarp(enemy);
 		}
-		for (Powerup pwrUp : this.powerups) {
+		for (Powerup pwrUp: this.powerups) {
 			this.checkForWarp(pwrUp);
 		}
 		updateCol(this.shots, time, this.ship);
@@ -130,7 +130,7 @@ public class PlayModel {
 		this.powerups = level.loadPowerups(dificulty, this.visableArea);
 	}
 
-	private void checkForAsteroidCollisions() {
+	private void checkForEnemyCollisions() {
 		int i = 0;
 		Set<Integer> remove = new HashSet<Integer>();
 		Set<Integer> removeS = new HashSet<Integer>();
@@ -168,18 +168,20 @@ public class PlayModel {
 		}
 	}
 	
-	private void checkForPwrUpCollisions() {
+	private void checkForPowerUpCollisions() {
 		int i = 0;
 		Set<Integer> remove = new HashSet<Integer>();
-		for (Powerup pwrUp : this.powerups) {
+		for (Powerup pwrUp: this.powerups) {
 			if (pwrUp.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
 				pwrUp.usePwr(this.ship);
 				remove.add(i);
-			}
+			}			
 			i++;
 		}
 		for (int del : remove) {
+			if (del < this.powerups.size()) {
 			this.powerups.remove(del);
+			}
 		}
 	}
 

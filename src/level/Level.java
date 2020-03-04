@@ -7,6 +7,7 @@ import java.util.Random;
 
 import constants.Constants;
 import constants.Enemies;
+import constants.Powerups;
 import enemies.Asteroid;
 import enemies.Enemy;
 import enemies.Rocket;
@@ -18,11 +19,13 @@ public class Level {
 	private static Random generator = new Random();
 	private int asteroids;
 	private int rockets;
-	private int powerups;
-	public Level(int asteroids, int rockets, int powerups) {
+	private int shields;
+	private int bulletIntencity;
+	public Level(int asteroids, int rockets, int shields, int bulletIntencity) {
 		this.asteroids = asteroids;
 		this.rockets = rockets;
-		this.powerups = powerups;
+		this.shields = shields;
+		this.bulletIntencity = bulletIntencity;
 	}
 	
 	public ArrayList<Enemy> loadEnemies(double dificulty, Rectangle2D outline, GameObject follow) {
@@ -47,13 +50,20 @@ public class Level {
 	
 	public ArrayList<Powerup> loadPowerups(double dificulty, Rectangle2D outline) {
 		ArrayList<Powerup> list = new ArrayList<Powerup>();
-		for (int i = 0; i < this.powerups; i++) {
-			Powerup pwrUp = new Powerup();
-			pwrUp.setPos(generatePos(outline));
-			MyPoint vel = generateVel(dificulty);
-			pwrUp.setVel(vel);
-			pwrUp.setDirection(vel);
-			list.add(pwrUp);
+		list.addAll(loadPowerUp(dificulty, outline, Powerups.Shield, this.shields));
+		list.addAll(loadPowerUp(dificulty, outline, Powerups.BulletIntencity, this.bulletIntencity));
+		return list;
+	}
+	
+	private static ArrayList<Powerup> loadPowerUp(double dificulty, Rectangle2D outline, Powerups type, double multiplier) {
+		ArrayList<Powerup> list = new ArrayList<Powerup>();
+		for (int i = 0; i < multiplier; i++) {
+			Powerup base = Powerup.generate(type);
+			base.setPos(generatePos(outline));
+			MyPoint vel = generateVel(1);
+			base.setVel(vel);
+			base.setDirection(vel);
+			list.add(base);
 		}
 		return list;
 	}

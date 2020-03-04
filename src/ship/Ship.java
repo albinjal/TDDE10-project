@@ -12,6 +12,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import constants.Constants;
 import level.PlayModel;
@@ -20,17 +22,16 @@ import utilites.MyPoint;
 
 public abstract class Ship extends GameObject {
 	private PlayModel model;
-	private int bulletIntencity = 10;
-	private int bulletTemp;
-	private int pwrUpDur = 0;
 	private Boolean shield = false;
-
+	private int bulletIntencity = Constants.stdBulletIntencity;
+	private int bulletTemp = Constants.stdBulletIntencity;
+	private int bulletTimer = 0;
+	private int shieldTimer = 0;
 
 	public Ship(PlayModel model) {
 		super();
 		this.model = model;
 		this.setResistance(0.8);
-		this.bulletTemp = this.bulletIntencity;
 	}
 
 	public void accelerate() {
@@ -53,38 +54,50 @@ public abstract class Ship extends GameObject {
 	public void fire() {
 		this.shoot();
 	}
-	
+
 	public void setBulletI(int intencity, int duration) {
-		this.bulletIntencity =  intencity;
-		this.pwrUpDur = duration * 60;
+		this.bulletIntencity = intencity;
+		this.bulletTimer = duration*60;
 
 	}
-	
+
 	public void setShield(int duration) {
 		this.shield = true;
-		this.pwrUpDur = duration * 60;
+		this.shieldTimer = duration*60;
+
 	}
-	
+
 	public Boolean getShieldStatus() {
 		return this.shield;
 	}
-	
-	public void updatePwrUpDur() {
-		if (this.pwrUpDur > 0) {
-			this.pwrUpDur--;
-			if (this.pwrUpDur == 0) {
-				this.bulletIntencity = 10;
+
+	public void updatePowerUps(double time) {
+		if (this.shieldTimer > 0) {
+			this.shieldTimer = this.shieldTimer - 1;
+			if (this.shieldTimer <= 0) {
+				this.shieldTimer = 0;
 				this.shield = false;
 			}
 		}
-	}
-	
-	private void shoot() {
-		Bullet shot = new Bullet();
-		shot.setPos(this.getPos().add(this.getDirection().multiply(20)));
-		shot.setVel(this.getDirection().multiply(1000).add(this.getVel()));
-		shot.setRotation(this.getRotation());
-		this.getModel().addShot(shot);
+		if (this.bulletTimer > 0) {
+				this.bulletTimer = this.bulletTimer - 1;
+				if (this.bulletTimer <= 0) {
+					this.bulletTimer = 0;
+					this.bulletIntencity = Constants.stdBulletIntencity;
+			}
+		}
 	}
 
+	private void shoot() {
+		this.bulletTemp --;
+		if (this.bulletTemp <= 0) {
+			Bullet shot = new Bullet();
+			shot.setPos(this.getPos().add(this.getDirection().multiply(20)));
+			shot.setVel(this.getDirection().multiply(1000).add(this.getVel()));
+			shot.setRotation(this.getRotation());
+			this.getModel().addShot(shot);
+			this.bulletTemp = this.bulletIntencity;
+		}
+		
+	}
 }

@@ -14,4 +14,5 @@ public interface Constants {
     Color playBackground = Color.cyan;
     boolean developer_mode = false;
     double enemy_maxspeed = 100;
+    int stdBulletIntencity = 10;
 }
