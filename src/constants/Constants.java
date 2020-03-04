@@ -13,5 +13,5 @@ public interface Constants {
     int SCREEN_HEIGHT = 800;
     Color playBackground = Color.cyan;
     boolean developer_mode = false;
-    double asteroid_speed = 20;
+    double enemy_maxspeed = 100;
 }

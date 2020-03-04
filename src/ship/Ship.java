@@ -29,7 +29,7 @@ public abstract class Ship extends GameObject {
 	public Ship(PlayModel model) {
 		super();
 		this.model = model;
-		this.setResistance(0.3);
+		this.setResistance(0.8);
 		this.bulletTemp = this.bulletIntencity;
 	}
 

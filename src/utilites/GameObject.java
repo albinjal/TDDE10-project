@@ -87,6 +87,8 @@ public abstract class GameObject {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawImage(getImg(), trans, null);
 	}
+	
+
 
 	public AffineTransform scaleImg() {
 		AffineTransform trans = new AffineTransform();
@@ -102,7 +104,7 @@ public abstract class GameObject {
 		return new MyPoint(Math.cos(this.rotation), Math.sin(this.rotation));
 	}
 
-	public void updateKinematics(double time) {
+	public void updateKinematics(double time, GameObject follow) {
 		this.patchPos(time);
 		this.resist(time);
 	}

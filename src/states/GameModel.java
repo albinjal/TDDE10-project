@@ -11,6 +11,7 @@ public class GameModel {
 	private GameState activeState;
 	private Set<Integer> keys = new HashSet<Integer>();
 	private boolean reactedToKeys = true;
+	private boolean updating = false;
 	public GameModel() {
 		this.swtichState(GameStates.Play);
 	}
@@ -29,12 +30,14 @@ public class GameModel {
 
     
     public void update() {
+    	this.updating = true;
     	activeState.update(this.keys);
+    	this.updating = false;
     	this.reactedToKeys = true;
     }
     
     public void setKeys(Set<Integer> keys) {
-    	if (this.reactedToKeys) {
+    	if (this.reactedToKeys && !this.updating) {
     		this.keys = keys;
     		this.reactedToKeys = false;
     	}

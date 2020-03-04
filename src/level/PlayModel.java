@@ -30,13 +30,13 @@ public class PlayModel {
 	private Map<Integer, Runnable> keyActions = new HashMap<Integer, Runnable>();
 	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH,
 			Constants.SCREEN_HEIGHT);
-	private static Level[] levels = { new Level(2, 0, 1) };
+	private static Level[] levels = { new Level(2, 2, 1) };
 
 	public PlayModel() {
 		this.ship = new StandardShip(this);
 		this.ship.setPos(new MyPoint(100, 500));
 		this.addActions();
-		this.loadLevel(levels[0], 10);
+		this.loadLevel(levels[0], 4);
 	}
 
 	public void draw(Graphics g) {
@@ -49,10 +49,19 @@ public class PlayModel {
 	}
 
 	public void update(double time, Set<Integer> keys) {
+		Set<Runnable> actions = new HashSet<Runnable>();
+		keys.forEach(key -> {
+			Runnable action = this.keyActions.get(key);
+			if (action != null) {
+				actions.add(action);
+			}
+			
+		});
+		actions.forEach(action -> action.run());
 		this.checkForAsteroidCollisions();
 		this.checkForPwrUpCollisions();
 		this.removeUnseen(this.shots);
-		this.ship.updateKinematics(time);
+		this.ship.updateKinematics(time, this.ship);
 		this.ship.updatePwrUpDur();
 		this.checkForWarp(this.ship);
 		for (Enemy enemy : this.enemies) {
@@ -61,16 +70,9 @@ public class PlayModel {
 		for (Powerup pwrUp : this.powerups) {
 			this.checkForWarp(pwrUp);
 		}
-		updateCol(this.shots, time);
-		updateCol(this.enemies, time);
-		updateCol(this.powerups, time);
-		for (int key : keys) {
-			Runnable action = this.keyActions.get(key);
-			if (action != null) {
-				action.run();
-			}
-			
-		}
+		updateCol(this.shots, time, this.ship);
+		updateCol(this.enemies, time, this.ship);
+		updateCol(this.powerups, time, this.ship);
 
 	}
 
@@ -89,9 +91,9 @@ public class PlayModel {
 		col.removeIf(shot -> !shot.getHitbox().intersects(this.visableArea));
 	}
 
-	private static void updateCol(Collection<? extends GameObject> col, double time) {
+	private static void updateCol(Collection<? extends GameObject> col, double time, GameObject follow) {
 		for (GameObject element : col) {
-			element.updateKinematics(time);
+			element.updateKinematics(time, follow);
 		}
 	}
 
@@ -124,7 +126,7 @@ public class PlayModel {
 	}
 
 	private void loadLevel(Level level, double dificulty) {
-		this.enemies = level.loadEnemies(dificulty, this.visableArea);
+		this.enemies = level.loadEnemies(dificulty, this.visableArea, this.ship);
 		this.powerups = level.loadPowerups(dificulty, this.visableArea);
 	}
 
@@ -136,6 +138,7 @@ public class PlayModel {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
 				if (!this.ship.getShieldStatus()) {
 					this.ship = new StandardShip(this);
+					this.ship.setPos(new MyPoint(100, 200));
 				} else {
 					remove.add(i);
 				}
@@ -154,10 +157,14 @@ public class PlayModel {
 			i++;
 		}
 		for (int del : removeS) {
+			if (del < this.shots.size()) {
 			this.shots.remove(del);
+			}
 		}
 		for (int del : remove) {
+			if (del < this.enemies.size()) {
 			this.enemies.remove(del);
+			}
 		}
 	}
 	
