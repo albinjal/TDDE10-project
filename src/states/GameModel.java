@@ -1,6 +1,7 @@
 package states;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,6 +43,10 @@ public class GameModel {
     		this.reactedToKeys = false;
     	}
     	
+    }
+    
+    public void click(MouseEvent e) {
+    	this.activeState.click(e);
     }
 
     

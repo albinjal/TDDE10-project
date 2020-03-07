@@ -1,11 +1,15 @@
 package states;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 import java.util.Set;
 
 import constants.Constants;
 import level.PlayModel;
+import utilites.Button;
+import utilites.MyPoint;
 
 public class PlayState extends GameState {
 	private PlayModel data = new PlayModel();
@@ -16,7 +20,8 @@ public class PlayState extends GameState {
 	}
 
 	@Override
-	public void draw(Graphics g) {	
+	public void draw(Graphics g) {
+		super.draw(g);
 		this.data.draw(g);
 	}
 
