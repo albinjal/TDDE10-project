@@ -14,7 +14,9 @@ public interface Constants {
     Color playBackground = Color.cyan;
     boolean developer_mode = false;
     double enemy_maxspeed = 100;
+    String hs_savepath = "test.ser";
     int stdBulletIntencity = 10;
+    
     
     
     int centerX = SCREEN_WIDTH / 2;

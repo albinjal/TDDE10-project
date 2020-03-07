@@ -12,10 +12,13 @@ import utilites.Button;
 import utilites.MyPoint;
 
 public class MenuState extends GameState {
-
+	private static int buttons = 3;
 	public MenuState(GameModel model) {
 		super(model);
-		this.addButton(new Button(new MyPoint(Constants.centerX, 200), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> this.play()));
+		this.addButton(new Button(new MyPoint(Constants.centerX,  Constants.SCREEN_HEIGHT / (buttons + 1)), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> this.play()));
+		this.addButton(new Button(new MyPoint(Constants.centerX, 2 * Constants.SCREEN_HEIGHT /( buttons + 1)), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> this.play()));
+		this.addButton(new Button(new MyPoint(Constants.centerX, 3 * Constants.SCREEN_HEIGHT /( buttons + 1)), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> System.exit(0)));
+
 	}
 
 	@Override
@@ -31,7 +34,6 @@ public class MenuState extends GameState {
 	private void play() {
 		this.getModel().swtichState(GameStates.Play);
 	}
-	
 	
 
 }

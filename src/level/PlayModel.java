@@ -30,17 +30,19 @@ public class PlayModel {
 	private ArrayList<Powerup> powerups;
 	private ArrayList<Bullet> shots = new ArrayList<Bullet>();
 	private int points = 1;
+	private int currentLevel = 0;
+	private double currentDif = 1;
 	private Map<Integer, Runnable> keyActions = new HashMap<Integer, Runnable>();
 	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH,
 			Constants.SCREEN_HEIGHT);
-	private static Level[] levels = { new Level(2, 2, 1, 1) };
+	private static Level[] levels = { new Level(2, 0, 1, 1), new Level(1, 1, 1, 1), new Level(0, 2, 1, 1) };
 
 	public PlayModel(PlayState state) {
+		this.loadNextLevel();
 		this.stateRef = state;
 		this.ship = new StandardShip(this);
-		this.ship.setPos(new MyPoint(500, 500));
+		this.ship.setPos(new MyPoint(Constants.centerX, Constants.centerY));
 		this.addActions();
-		this.loadLevel(levels[0], 4);
 	}
 
 	public void draw(Graphics g) {
@@ -53,6 +55,7 @@ public class PlayModel {
 	}
 
 	public void update(double time, Set<Integer> keys) {
+		this.checkForNewLevel();
 		Set<Runnable> actions = new HashSet<Runnable>();
 		keys.forEach(key -> {
 			Runnable action = this.keyActions.get(key);
@@ -85,6 +88,26 @@ public class PlayModel {
 		this.keyActions.put(KeyEvent.VK_A, () -> this.ship.turnLeft());
 		this.keyActions.put(KeyEvent.VK_D, () -> this.ship.turnRight());
 		this.keyActions.put(KeyEvent.VK_SPACE, () -> this.ship.fire());
+	}
+	
+	private void checkForNewLevel() {
+		if (this.enemies.size() <= 0) {
+			this.loadNextLevel();
+		}
+	}
+	
+	private void loadNextLevel() {
+		this.incrementLevel();
+		this.currentDif++;
+		this.loadLevel(levels[this.currentLevel], this.currentDif);
+	}
+	
+	private void incrementLevel() {
+		if (this.currentLevel < this.levels.length - 1) {
+			this.currentLevel++;
+		} else {
+			this.currentLevel = 0;
+		}
 	}
 	
 	private void menu() {
