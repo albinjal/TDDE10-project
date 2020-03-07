@@ -19,7 +19,6 @@ public class Button extends GameObject {
 	}
 	
 	public void click() {
-		System.out.println("lul");
 		this.action.run();
 	}
 

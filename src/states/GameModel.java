@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import constants.Constants;
 import constants.GameStates;
 
 public class GameModel {
@@ -14,7 +15,7 @@ public class GameModel {
 	private boolean reactedToKeys = true;
 	private boolean updating = false;
 	public GameModel() {
-		this.swtichState(GameStates.Play);
+		this.swtichState(Constants.entryState);
 	}
 	
 	public void swtichState(GameStates state) {
@@ -23,7 +24,8 @@ public class GameModel {
 	
 	public GameState newState(GameStates state) {
 		switch(state) {
-			case Play: return new PlayState(this); 
+			case Play: return new PlayState(this);
+			case Menu: return new MenuState(this);
 		}
 		return null;
 	}

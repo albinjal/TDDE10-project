@@ -12,11 +12,12 @@ import utilites.Button;
 import utilites.MyPoint;
 
 public class PlayState extends GameState {
-	private PlayModel data = new PlayModel();
+	private PlayModel data;
 	private long lastUpdate = System.currentTimeMillis();
 	
 	public PlayState(GameModel model) {
 		super(model);
+		this.data = new PlayModel(this);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import static constants.Constants.SCREEN_WIDTH;
 
 public abstract class GameState {
 	private ArrayList<Button> buttons = new ArrayList<Button>();
-	protected GameModel model;
+	private GameModel model;
 	
 	public GameState(GameModel model) {
 		this.model = model;
@@ -43,5 +43,9 @@ public abstract class GameState {
     
     protected void addButton(Button button) {
     	this.buttons.add(button);
+    }
+    
+    public GameModel getModel() {
+    	return this.model;
     }
 }

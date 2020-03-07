@@ -1,5 +1,6 @@
 package constants;
 
 public enum GameStates {
-	Play
+	Play,
+	Menu
 }

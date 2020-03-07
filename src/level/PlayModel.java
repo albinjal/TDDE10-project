@@ -13,16 +13,19 @@ import java.util.Map;
 import java.util.Set;
 
 import constants.Constants;
+import constants.GameStates;
 import enemies.Enemy;
 import powerups.Powerup;
 import ship.Bullet;
 import ship.Ship;
 import ship.StandardShip;
+import states.PlayState;
 import utilites.GameObject;
 import utilites.MyPoint;
 
 public class PlayModel {
 	private Ship ship;
+	private PlayState stateRef;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Powerup> powerups;
 	private ArrayList<Bullet> shots = new ArrayList<Bullet>();
@@ -32,9 +35,10 @@ public class PlayModel {
 			Constants.SCREEN_HEIGHT);
 	private static Level[] levels = { new Level(2, 2, 1, 1) };
 
-	public PlayModel() {
+	public PlayModel(PlayState state) {
+		this.stateRef = state;
 		this.ship = new StandardShip(this);
-		this.ship.setPos(new MyPoint(100, 500));
+		this.ship.setPos(new MyPoint(500, 500));
 		this.addActions();
 		this.loadLevel(levels[0], 4);
 	}
@@ -81,6 +85,18 @@ public class PlayModel {
 		this.keyActions.put(KeyEvent.VK_A, () -> this.ship.turnLeft());
 		this.keyActions.put(KeyEvent.VK_D, () -> this.ship.turnRight());
 		this.keyActions.put(KeyEvent.VK_SPACE, () -> this.ship.fire());
+	}
+	
+	private void menu() {
+		this.stateRef.getModel().swtichState(GameStates.Menu);
+	}
+	
+	private void die() {
+		this.loose();
+	}
+	
+	private void loose() {
+		this.menu();
 	}
 
 	public void addShot(Bullet shot) {
@@ -137,8 +153,7 @@ public class PlayModel {
 		for (Enemy enemy : this.enemies) {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
 				if (!this.ship.getShieldStatus()) {
-					this.ship = new StandardShip(this);
-					this.ship.setPos(new MyPoint(100, 200));
+					this.die();
 				} else {
 					remove.add(i);
 				}
