@@ -4,8 +4,9 @@ import ship.Ship;
 
 public class Shield extends Powerup {
 
-	public void shield() {
-		this.setImg("/assets/PwrUp.png");
+	public Shield() {
+		super();
+		this.setImg(this.loadImg("/assets/pwrUp.png"));
 	}
 
 	@Override

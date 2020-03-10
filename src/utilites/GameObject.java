@@ -19,6 +19,7 @@ public abstract class GameObject {
 	private MyPoint velocity;
 	private double resistance = 0;
 	private BufferedImage img;
+	
 
 	public GameObject() {
 		this.setPos(new MyPoint());
@@ -103,8 +104,12 @@ public abstract class GameObject {
 	public MyPoint getDirection() {
 		return new MyPoint(Math.cos(this.rotation), Math.sin(this.rotation));
 	}
+	
+	public void update(double time, GameObject follow) {
+		this.updateKinematics(time, follow);
+	}
 
-	public void updateKinematics(double time, GameObject follow) {
+	private void updateKinematics(double time, GameObject follow) {
 		this.patchPos(time);
 		this.resist(time);
 	}
@@ -176,8 +181,12 @@ public abstract class GameObject {
 		this.resistance = res;
 	}
 	
-	public void setImg(String path) {
-		this.img = Asteroids.loadImage(this.getClass().getResource(path).getPath());
+	public BufferedImage loadImg(String path) {
+		return Asteroids.loadImage(this.getClass().getResource(path).getPath());
+	}
+	
+	public void setImg(BufferedImage img) {
+		this.img = img;
 	}
 	
 }

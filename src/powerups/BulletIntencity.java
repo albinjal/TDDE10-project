@@ -4,8 +4,9 @@ import ship.Ship;
 
 public class BulletIntencity extends Powerup {
 
-	public void BulletIntencity() {
-		this.setImg("assets/PweUp.png");
+	public BulletIntencity() {
+		super();
+		this.setImg(this.loadImg("/assets/pwrUp.png"));
 	}
 	
 	@Override

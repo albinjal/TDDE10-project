@@ -15,7 +15,7 @@ public class StandardShip extends Ship {
 	private BufferedImage image;
 	public StandardShip(PlayModel model) {
 		super(model);
-		this.setImg("/assets/ship.png");
+		this.setImg(this.loadImg("/assets/ship.png"));
 	}
 
 	@Override

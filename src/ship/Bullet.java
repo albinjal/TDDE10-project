@@ -9,7 +9,7 @@ import utilites.GameObject;
 
 public class Bullet extends GameObject {
 	public Bullet() {
-		this.setImg("/assets/laser_bullet.png");
+		this.setImg(this.loadImg("/assets/laser_bullet.png"));
 	}
 
 	@Override

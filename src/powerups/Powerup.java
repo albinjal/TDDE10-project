@@ -12,7 +12,6 @@ public abstract class Powerup extends GameObject {
 
 	public Powerup() {
 		super();
-		this.setImg("/assets/pwrUp.png");
 	}
 
 	@Override

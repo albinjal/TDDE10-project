@@ -67,9 +67,8 @@ public class PlayModel {
 		actions.forEach(action -> action.run());
 		this.checkForEnemyCollisions();
 		this.checkForPowerUpCollisions();
-		this.ship.updatePowerUps(time);
 		this.removeUnseen(this.shots);
-		this.ship.updateKinematics(time, this.ship);
+		this.ship.update(time, this.ship);
 		this.checkForWarp(this.ship);
 		for (Enemy enemy : this.enemies) {
 			this.checkForWarp(enemy);
@@ -132,13 +131,19 @@ public class PlayModel {
 
 	private static void updateCol(Collection<? extends GameObject> col, double time, GameObject follow) {
 		for (GameObject element : col) {
-			element.updateKinematics(time, follow);
+			element.update(time, follow);
 		}
 	}
 
 	private static void drawCol(Collection<? extends GameObject> col, Graphics2D g) {
 		for (GameObject obj : col) {
 			obj.draw(g);
+		}
+	}
+	
+	private void collide() {
+		if (!this.ship.getShieldStatus()) {
+			this.die();
 		}
 	}
 
@@ -175,11 +180,9 @@ public class PlayModel {
 		Set<Integer> removeS = new HashSet<Integer>();
 		for (Enemy enemy : this.enemies) {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
-				if (!this.ship.getShieldStatus()) {
-					this.die();
-				} else {
-					remove.add(i);
-				}
+				this.collide();
+				remove.add(i);
+				
 			}
 			int k = 0;
 			

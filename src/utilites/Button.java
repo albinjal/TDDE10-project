@@ -9,7 +9,7 @@ public class Button extends GameObject {
 	public Button(MyPoint pos, Shape hitbox, String img, Runnable action) {
 		super(pos);
 		this.hitbox = hitbox;
-		this.setImg(img);
+		this.setImg(this.loadImg(img));
 		this.action = action;
 	}
 

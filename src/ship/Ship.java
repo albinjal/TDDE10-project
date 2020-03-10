@@ -23,19 +23,33 @@ import utilites.MyPoint;
 public abstract class Ship extends GameObject {
 	private PlayModel model;
 	private Boolean shield = false;
-	private int bulletIntencity = Constants.stdBulletIntencity;
-	private int bulletTemp = Constants.stdBulletIntencity;
+	private double bulletIntencity = Constants.stdBulletIntencity;
+	private double bulletTemp;
 	private int bulletTimer = 0;
 	private int shieldTimer = 0;
+	private BufferedImage normal;
+	private BufferedImage accelerating;
+	private BufferedImage shielded;
+
 
 	public Ship(PlayModel model) {
 		super();
 		this.model = model;
 		this.setResistance(0.8);
+		this.bulletTemp = this.bulletIntencity;
+		this.normal = this.loadImg("/assets/ship.png");
+		this.setImg(this.normal);
+	}
+	
+	@Override
+	public void update(double time, GameObject follow) {
+		super.update(time, follow);
+		this.updatePowerUps(time);
+		this.bulletTemp --;
 	}
 
 	public void accelerate() {
-		this.addVel(this.getDirection().multiply(10));
+		this.addVel(this.getDirection().multiply(10 * 60 / Constants.fps));
 	}
 
 	public void turnRight() {
@@ -89,7 +103,6 @@ public abstract class Ship extends GameObject {
 	}
 
 	private void shoot() {
-		this.bulletTemp --;
 		if (this.bulletTemp <= 0) {
 			Bullet shot = new Bullet();
 			shot.setPos(this.getPos().add(this.getDirection().multiply(20)));
