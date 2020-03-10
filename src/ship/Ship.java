@@ -30,6 +30,8 @@ public abstract class Ship extends GameObject {
 	private BufferedImage normal;
 	private BufferedImage accelerating;
 	private BufferedImage shielded;
+	private int lives = Constants.startLives;
+
 
 
 	public Ship(PlayModel model) {
@@ -37,7 +39,7 @@ public abstract class Ship extends GameObject {
 		this.model = model;
 		this.setResistance(0.8);
 		this.bulletTemp = this.bulletIntencity;
-		this.normal = this.loadImg("/assets/ship.png");
+		this.normal = this.loadImg("/assets/spacecraft.png");
 		this.setImg(this.normal);
 	}
 	
@@ -84,7 +86,15 @@ public abstract class Ship extends GameObject {
 	public Boolean getShieldStatus() {
 		return this.shield;
 	}
-
+	
+	public void collide() {
+		if (!this.getShieldStatus() && this.lives > 0) {
+			this.setPos(new MyPoint(Constants.centerX, Constants.centerY));
+			this.setVel(new MyPoint(0,0));
+			this.lives --;
+		}
+	}
+  
 	public void updatePowerUps(double time) {
 		if (this.shieldTimer > 0) {
 			this.shieldTimer = this.shieldTimer - 1;
@@ -101,6 +111,10 @@ public abstract class Ship extends GameObject {
 			}
 		}
 	}
+	
+	public int getLives() {
+		return this.lives;
+	}
 
 	private void shoot() {
 		if (this.bulletTemp <= 0) {
@@ -113,4 +127,6 @@ public abstract class Ship extends GameObject {
 		}
 		
 	}
+	
+	
 }

@@ -15,12 +15,12 @@ public class StandardShip extends Ship {
 	private BufferedImage image;
 	public StandardShip(PlayModel model) {
 		super(model);
-		this.setImg(this.loadImg("/assets/ship.png"));
+		this.setImg(this.loadImg("/assets/spacecraft.png"));
 	}
 
 	@Override
 	public Shape getHitboxShape() {
-		return new Rectangle2D.Double(0, 0, 100, 60);
+		return new Rectangle2D.Double(0, 0, 100, 100);
 	}
 	
 

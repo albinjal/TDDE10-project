@@ -1,5 +1,10 @@
 package level;
 
+import static constants.Constants.SCREEN_HEIGHT;
+import static constants.Constants.SCREEN_WIDTH;
+
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -29,8 +34,9 @@ public class PlayModel {
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Powerup> powerups;
 	private ArrayList<Bullet> shots = new ArrayList<Bullet>();
-	private int points = 1;
-	private int currentLevel = 0;
+	private int points = 0;
+	private int currentLevelType = 0;
+	private int currentLevel = 1;
 	private double currentDif = 1;
 	private Map<Integer, Runnable> keyActions = new HashMap<Integer, Runnable>();
 	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH,
@@ -47,11 +53,33 @@ public class PlayModel {
 
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
+		this.drawBg(g);
 		g2.draw(this.visableArea);
 		ship.draw(g2);
 		drawCol(this.enemies, g2);
 		drawCol(this.shots, g2);
 		drawCol(this.powerups, g2);
+		this.drawUI(g2, g);
+
+	}
+	
+	private void drawBg(Graphics g) {
+		g.setColor(Constants.playBackground);
+        g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}
+
+	private void drawUI(Graphics2D g2, Graphics g) {
+		g2.setFont(new Font("Roboto", Font.PLAIN, 20));
+		g2.setColor(Color.white);
+		g2.draw(this.visableArea);
+		g2.drawString("Lives " + new Integer(this.ship.getLives()).toString(), 100, 50);
+		g2.drawString("Level " + new Integer(this.currentLevel).toString(), 200, 50);
+		g2.drawString("Points " + new Integer(this.points).toString(), 300, 50);
+		for (int i=1; i <= this.ship.getLives(); i++) {
+			//TODO: Add one ShipLife for each remaining life
+		}
+		
+
 	}
 
 	public void update(double time, Set<Integer> keys) {
@@ -62,7 +90,9 @@ public class PlayModel {
 			if (action != null) {
 				actions.add(action);
 			}
+			// TODO: Lägga in nedräkning av poäng för nivå
 			
+
 		});
 		actions.forEach(action -> action.run());
 		this.checkForEnemyCollisions();
@@ -73,7 +103,7 @@ public class PlayModel {
 		for (Enemy enemy : this.enemies) {
 			this.checkForWarp(enemy);
 		}
-		for (Powerup pwrUp: this.powerups) {
+		for (Powerup pwrUp : this.powerups) {
 			this.checkForWarp(pwrUp);
 		}
 		updateCol(this.shots, time, this.ship);
@@ -88,35 +118,37 @@ public class PlayModel {
 		this.keyActions.put(KeyEvent.VK_D, () -> this.ship.turnRight());
 		this.keyActions.put(KeyEvent.VK_SPACE, () -> this.ship.fire());
 	}
-	
+
 	private void checkForNewLevel() {
 		if (this.enemies.size() <= 0) {
 			this.loadNextLevel();
+			this.currentLevel ++;
 		}
 	}
-	
+
 	private void loadNextLevel() {
 		this.incrementLevel();
 		this.currentDif++;
-		this.loadLevel(levels[this.currentLevel], this.currentDif);
+		this.points += this.currentDif*2 - 4;
+		this.loadLevel(levels[this.currentLevelType], this.currentDif);
 	}
-	
+
 	private void incrementLevel() {
-		if (this.currentLevel < this.levels.length - 1) {
-			this.currentLevel++;
+		if (this.currentLevelType < this.levels.length - 1) {
+			this.currentLevelType++;
 		} else {
-			this.currentLevel = 0;
+			this.currentLevelType = 0;
 		}
 	}
-	
+
 	private void menu() {
 		this.stateRef.getModel().swtichState(GameStates.Menu);
 	}
-	
-	private void die() {
+
+	private void endLevel() {
 		this.loose();
 	}
-	
+
 	private void loose() {
 		this.menu();
 	}
@@ -138,12 +170,6 @@ public class PlayModel {
 	private static void drawCol(Collection<? extends GameObject> col, Graphics2D g) {
 		for (GameObject obj : col) {
 			obj.draw(g);
-		}
-	}
-	
-	private void collide() {
-		if (!this.ship.getShieldStatus()) {
-			this.die();
 		}
 	}
 
@@ -180,7 +206,10 @@ public class PlayModel {
 		Set<Integer> removeS = new HashSet<Integer>();
 		for (Enemy enemy : this.enemies) {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
-				this.collide();
+				this.ship.collide();
+				if (this.ship.getLives() == 0) {
+					this.endLevel();
+				}
 				remove.add(i);
 				
 			}
@@ -191,6 +220,7 @@ public class PlayModel {
 				if (shot.getHitbox().intersects(enemy.getHitbox().getBounds2D())) {
 					remove.add(i);
 					removeS.add(k);
+					this.points += 5;
 				}
 				k++;
 			}
@@ -208,20 +238,20 @@ public class PlayModel {
 			}
 		}
 	}
-	
+
 	private void checkForPowerUpCollisions() {
 		int i = 0;
 		Set<Integer> remove = new HashSet<Integer>();
-		for (Powerup pwrUp: this.powerups) {
+		for (Powerup pwrUp : this.powerups) {
 			if (pwrUp.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
 				pwrUp.usePwr(this.ship);
 				remove.add(i);
-			}			
+			}
 			i++;
 		}
 		for (int del : remove) {
 			if (del < this.powerups.size()) {
-			this.powerups.remove(del);
+				this.powerups.remove(del);
 			}
 		}
 	}
