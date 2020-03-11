@@ -1,4 +1,4 @@
-package constants;
+package data;
 
 public enum Enemies {
 	Rocket,

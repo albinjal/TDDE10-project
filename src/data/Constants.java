@@ -1,6 +1,7 @@
-package constants;
+package data;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import states.GameState;
 import states.PlayState;
@@ -15,8 +16,9 @@ public interface Constants {
     boolean developer_mode = false;
     double enemy_maxspeed = 100;
     String hs_savepath = "test.ser";
-    double stdBulletIntencity = 10 *  fps / 60;
+    double stdBulletIntencity = 20 *  fps / 60;
     int startLives = 3;
+    String font = "Roboto";
     
     
     

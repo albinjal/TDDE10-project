@@ -1,6 +1,7 @@
-package constants;
+package data;
 
 public enum GameStates {
 	Play,
-	Menu
+	Menu,
+	HighScores
 }
