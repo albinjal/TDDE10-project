@@ -1,7 +1,7 @@
 package level;
 
-import static constants.Constants.SCREEN_HEIGHT;
-import static constants.Constants.SCREEN_WIDTH;
+import static data.Constants.SCREEN_HEIGHT;
+import static data.Constants.SCREEN_WIDTH;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -10,23 +10,33 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import constants.Constants;
-import constants.GameStates;
+import com.sun.corba.se.impl.ior.GenericTaggedComponent;
+
+import data.Constants;
+import data.GameStates;
 import enemies.Enemy;
 import powerups.Powerup;
 import ship.Bullet;
 import ship.Ship;
 import ship.StandardShip;
 import states.PlayState;
+import utilites.Button;
 import utilites.GameObject;
 import utilites.MyPoint;
+import utilites.ShipLife;
 
 public class PlayModel {
 	private Ship ship;
@@ -42,6 +52,8 @@ public class PlayModel {
 	private Rectangle2D.Double visableArea = new Rectangle2D.Double(0, 0, Constants.SCREEN_WIDTH,
 			Constants.SCREEN_HEIGHT);
 	private static Level[] levels = { new Level(2, 0, 1, 1), new Level(1, 1, 1, 1), new Level(0, 2, 1, 1) };
+	private ArrayList<ShipLife> shipLives = new ArrayList<ShipLife>();
+	private double earnableLvlPoints = 0;
 
 	public PlayModel(PlayState state) {
 		this.loadNextLevel();
@@ -49,6 +61,10 @@ public class PlayModel {
 		this.ship = new StandardShip(this);
 		this.ship.setPos(new MyPoint(Constants.centerX, Constants.centerY));
 		this.addActions();
+		for (int i = 0; i < Constants.startLives; i++) {
+			this.shipLives.add(new ShipLife(new MyPoint(120 + 50 * i, 100)));
+		}
+
 	}
 
 	public void draw(Graphics g) {
@@ -62,23 +78,21 @@ public class PlayModel {
 		this.drawUI(g2, g);
 
 	}
-	
+
 	private void drawBg(Graphics g) {
 		g.setColor(Constants.playBackground);
-        g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
 
 	private void drawUI(Graphics2D g2, Graphics g) {
 		g2.setFont(new Font("Roboto", Font.PLAIN, 20));
 		g2.setColor(Color.white);
 		g2.draw(this.visableArea);
-		g2.drawString("Lives " + new Integer(this.ship.getLives()).toString(), 100, 50);
-		g2.drawString("Level " + new Integer(this.currentLevel).toString(), 200, 50);
-		g2.drawString("Points " + new Integer(this.points).toString(), 300, 50);
-		for (int i=1; i <= this.ship.getLives(); i++) {
-			//TODO: Add one ShipLife for each remaining life
+		g2.drawString("Level " + new Integer(this.currentLevel).toString(), 100, 50);
+		g2.drawString("Points " + new Integer(this.points).toString(), 200, 50);
+		for (ShipLife life : this.shipLives) {
+			life.drawImage(g);
 		}
-		
 
 	}
 
@@ -90,10 +104,12 @@ public class PlayModel {
 			if (action != null) {
 				actions.add(action);
 			}
-			// TODO: Lägga in nedräkning av poäng för nivå
-			
 
 		});
+		if (this.earnableLvlPoints > 0) {
+			this.earnableLvlPoints -= this.currentDif/Constants.fps;
+		}
+		this.ship.updateAppearance(keys);
 		actions.forEach(action -> action.run());
 		this.checkForEnemyCollisions();
 		this.checkForPowerUpCollisions();
@@ -122,15 +138,16 @@ public class PlayModel {
 	private void checkForNewLevel() {
 		if (this.enemies.size() <= 0) {
 			this.loadNextLevel();
-			this.currentLevel ++;
+			this.currentLevel++;
+			this.points += (int) this.earnableLvlPoints;
 		}
 	}
 
 	private void loadNextLevel() {
 		this.incrementLevel();
 		this.currentDif++;
-		this.points += this.currentDif*2 - 4;
 		this.loadLevel(levels[this.currentLevelType], this.currentDif);
+		this.earnableLvlPoints = this.currentDif * 10;
 	}
 
 	private void incrementLevel() {
@@ -151,6 +168,36 @@ public class PlayModel {
 
 	private void loose() {
 		this.menu();
+		ArrayList<Integer> scores = new ArrayList<Integer>();
+		try {
+			FileInputStream file = new FileInputStream("data/.highscores.ser");
+			ObjectInputStream in = new ObjectInputStream(file);
+
+			scores = (ArrayList<Integer>)in.readObject();
+			in.close();
+			file.close();
+		} catch (IOException ex) {
+			System.out.println("IOException is caught");
+		} catch (ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException is caught");
+		}
+
+		scores.add(this.points);
+		Collections.sort(scores, Collections.reverseOrder());
+		if (scores.size() > 10) {
+			scores.remove(scores.size()-1);
+		}
+
+		try {
+			FileOutputStream fileOut = new FileOutputStream("data/.highscores.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(scores);
+			out.close();
+			fileOut.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+
 	}
 
 	public void addShot(Bullet shot) {
@@ -207,14 +254,17 @@ public class PlayModel {
 		for (Enemy enemy : this.enemies) {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
 				this.ship.collide();
-				if (this.ship.getLives() == 0) {
+				if (this.ship.getLives() <= 0) {
 					this.endLevel();
 				}
+				if (this.shipLives.size() != 0) {
+					this.shipLives.remove(this.shipLives.size() - 1);
+				}
 				remove.add(i);
-				
+
 			}
 			int k = 0;
-			
+
 			for (Bullet shot : this.shots) {
 
 				if (shot.getHitbox().intersects(enemy.getHitbox().getBounds2D())) {
@@ -224,17 +274,17 @@ public class PlayModel {
 				}
 				k++;
 			}
-			
+
 			i++;
 		}
 		for (int del : removeS) {
 			if (del < this.shots.size()) {
-			this.shots.remove(del);
+				this.shots.remove(del);
 			}
 		}
 		for (int del : remove) {
 			if (del < this.enemies.size()) {
-			this.enemies.remove(del);
+				this.enemies.remove(del);
 			}
 		}
 	}

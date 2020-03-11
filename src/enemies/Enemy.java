@@ -1,6 +1,6 @@
 package enemies;
 
-import constants.Enemies;
+import data.Enemies;
 import utilites.GameObject;
 
 public abstract class Enemy extends GameObject {

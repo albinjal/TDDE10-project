@@ -3,7 +3,7 @@ package powerups;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
-import constants.Powerups;
+import data.Powerups;
 import ship.Ship;
 import utilites.GameObject;
 

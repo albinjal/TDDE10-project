@@ -1,5 +1,8 @@
 package states;
 
+import static data.Constants.SCREEN_HEIGHT;
+import static data.Constants.SCREEN_WIDTH;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import utilites.Button;
-
-import static constants.Constants.SCREEN_HEIGHT;
-import static constants.Constants.SCREEN_WIDTH;
 
 public abstract class GameState {
 	private ArrayList<Button> buttons = new ArrayList<Button>();

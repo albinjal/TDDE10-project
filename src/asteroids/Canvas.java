@@ -11,8 +11,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JPanel;
+
+import data.Constants;
 import states.GameModel;
-import constants.Constants;
 
 public class Canvas extends JPanel {
 	private Set<Integer> keys = new HashSet<Integer>();

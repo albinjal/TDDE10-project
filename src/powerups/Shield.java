@@ -6,7 +6,7 @@ public class Shield extends Powerup {
 
 	public Shield() {
 		super();
-		this.setImg(this.loadImg("/assets/pwrUp.png"));
+		this.setImg(this.loadImg("/assets/shieldpowerup.png"));
 	}
 
 	@Override

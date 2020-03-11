@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 import java.util.Set;
 
-import constants.Constants;
+import data.Constants;
 import level.PlayModel;
 import utilites.Button;
 import utilites.MyPoint;

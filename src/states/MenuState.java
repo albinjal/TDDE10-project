@@ -6,8 +6,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.util.Set;
 
-import constants.Constants;
-import constants.GameStates;
+import data.Constants;
+import data.GameStates;
 import utilites.Button;
 import utilites.MyPoint;
 
@@ -16,7 +16,7 @@ public class MenuState extends GameState {
 	public MenuState(GameModel model) {
 		super(model);
 		this.addButton(new Button(new MyPoint(Constants.centerX,  Constants.SCREEN_HEIGHT / (buttons + 1)), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> this.play()));
-		this.addButton(new Button(new MyPoint(Constants.centerX, 2 * Constants.SCREEN_HEIGHT /( buttons + 1)), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> this.play()));
+		this.addButton(new Button(new MyPoint(Constants.centerX, 2 * Constants.SCREEN_HEIGHT /( buttons + 1)), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> this.highScores()));
 		this.addButton(new Button(new MyPoint(Constants.centerX, 3 * Constants.SCREEN_HEIGHT /( buttons + 1)), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> System.exit(0)));
 
 	}
@@ -33,6 +33,11 @@ public class MenuState extends GameState {
 	
 	private void play() {
 		this.getModel().swtichState(GameStates.Play);
+	}
+	
+	private void highScores() {
+		this.getModel().swtichState(GameStates.HighScores);
+
 	}
 	
 

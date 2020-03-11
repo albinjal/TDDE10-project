@@ -5,9 +5,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import constants.Constants;
-import constants.Enemies;
-import constants.Powerups;
+import data.Constants;
+import data.Enemies;
+import data.Powerups;
 import enemies.Asteroid;
 import enemies.Enemy;
 import enemies.Rocket;

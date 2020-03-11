@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.util.Vector;
 
 import asteroids.Asteroids;
-import constants.Constants;
+import data.Constants;
 
 public abstract class GameObject {
 	private double rotation = 0;
@@ -86,7 +86,7 @@ public abstract class GameObject {
 		AffineTransform trans = this.getTransform();
 		trans.concatenate(this.scaleImg());
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(getImg(), trans, null);
+		g2d.drawImage(this.getImg(), trans, null);
 	}
 	
 
