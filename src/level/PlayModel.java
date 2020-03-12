@@ -193,7 +193,9 @@ public class PlayModel {
 		scores.add(this.points);
 		Collections.sort(scores, Collections.reverseOrder());
 		if (scores.size() > 10) {
-			scores.remove(scores.size()-1);
+			for (int i = 0; i < scores.size() - 10; i++) {
+				scores.remove(scores.size() - 1);
+			}
 		}
 
 		try {
