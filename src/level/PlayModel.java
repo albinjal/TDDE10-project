@@ -27,8 +27,10 @@ import java.util.Set;
 import com.sun.corba.se.impl.ior.GenericTaggedComponent;
 
 import data.Constants;
+import data.Enemies;
 import data.GameStates;
 import enemies.Enemy;
+import enemies.MiniAsteroid;
 import powerups.Powerup;
 import ship.Bullet;
 import ship.Ship;
@@ -67,6 +69,8 @@ public class PlayModel {
 		}
 
 	}
+	
+	// TODO: Code cleanup
 
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -255,6 +259,7 @@ public class PlayModel {
 		int i = 0;
 		Set<Integer> remove = new HashSet<Integer>();
 		Set<Integer> removeS = new HashSet<Integer>();
+		ArrayList<Enemy> list = new ArrayList<Enemy>();
 		for (Enemy enemy : this.enemies) {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
 				this.ship.collide();
@@ -275,12 +280,21 @@ public class PlayModel {
 					remove.add(i);
 					removeS.add(k);
 					this.points += 5;
+					if (enemy.getType() == Enemies.Asteroid) {
+						for (int y = 0; y < Constants.MiniAsteroidSpawn; y++) {
+							Enemy mini = new MiniAsteroid();
+							mini.setPos(enemy.getPos());
+							list.add(mini);
+						}
+					}
 				}
 				k++;
 			}
 
 			i++;
 		}
+		
+		this.enemies.addAll(list);
 		for (int del : removeS) {
 			if (del < this.shots.size()) {
 				this.shots.remove(del);

@@ -5,8 +5,10 @@ import utilites.GameObject;
 
 public abstract class Enemy extends GameObject {
 	public static int killPoint = 30;
-	public Enemy() {
+	public Enemies type;
+	public Enemy(Enemies type) {
 		super();
+		setType(type);
 	}
 	
 
@@ -16,6 +18,14 @@ public abstract class Enemy extends GameObject {
 		case Rocket: return new Rocket();
 		}
 		return null;
+	}
+	
+	public void setType(Enemies type) {
+		this.type = type;
+	}
+	
+	public Enemies getType() {
+		return this.type;
 	}
 	
 }

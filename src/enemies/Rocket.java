@@ -4,11 +4,13 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
 
+import data.Enemies;
 import utilites.GameObject;
 import utilites.MyPoint;
 
 public class Rocket extends Enemy {
 	public Rocket() {
+		super(Enemies.Rocket);
 		this.setImg(this.loadImg("/assets/rocket2.png"));
 	}
 	@Override

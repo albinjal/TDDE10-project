@@ -5,14 +5,18 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+
+import data.Enemies;
+import utilites.MyPoint;
 
 public class Asteroid extends Enemy {
 	
 	int randomNum;
 	
 	public Asteroid() {
-		super();
+		super(Enemies.Asteroid);
 		this.setAsteroid();
 	}
 
@@ -21,15 +25,15 @@ public class Asteroid extends Enemy {
 		switch (randomNum) {
 		case 0:
 			this.setImg(this.loadImg("/assets/asteroid2.png"));
-			System.out.print(0);
 			break;
 		case 1:
 			this.setImg(this.loadImg("/assets/asteroid3.png"));
-			System.out.print(1);
-
 			break;
 		}
 	}
+	
+	// TODO: Change this class to abstract, Create class BigAsteroid
+
 	
 	@Override
 	public Shape getHitboxShape() {

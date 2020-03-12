@@ -13,12 +13,13 @@ public interface Constants {
     int SCREEN_WIDTH = 1000;
     int SCREEN_HEIGHT = 800;
     Color playBackground = Color.black;
-    boolean developer_mode = false;
+    boolean developer_mode = true;
     double enemy_maxspeed = 100;
     String hs_savepath = "test.ser";
     double stdBulletIntencity = 20 *  fps / 60;
     int startLives = 3;
     String font = "Agency FB";
+    int MiniAsteroidSpawn = 3;
     
     
     
