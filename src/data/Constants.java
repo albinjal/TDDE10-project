@@ -13,7 +13,7 @@ public interface Constants {
     int SCREEN_WIDTH = 1000;
     int SCREEN_HEIGHT = 800;
     Color playBackground = Color.black;
-    boolean developer_mode = true;
+    boolean developer_mode = false;
     double enemy_maxspeed = 100;
     String hs_savepath = "test.ser";
     double stdBulletIntencity = 20 *  fps / 60;
