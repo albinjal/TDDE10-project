@@ -9,7 +9,7 @@ import utilites.MyPoint;
 
 public class Rocket extends Enemy {
 	public Rocket() {
-		this.setImg(this.loadImg("/assets/rocket.png"));
+		this.setImg(this.loadImg("/assets/rocket2.png"));
 	}
 	@Override
 	public Shape getHitboxShape() {
