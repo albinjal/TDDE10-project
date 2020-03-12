@@ -50,7 +50,7 @@ public class Asteroids {
 	
 	public static void drawCenteredString(Graphics g, String text, int size, int xPos, int yPos) {
 	    // Get the FontMetrics
-		Font font = new Font ("Roboto", Font.PLAIN, size);
+		Font font = new Font (Constants.font, Font.PLAIN, size);
 	    FontMetrics metrics = g.getFontMetrics(font);
 	    // Determine the X coordinate for the text
 	    int x = xPos - (metrics.stringWidth(text) / 2);

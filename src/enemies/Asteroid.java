@@ -10,7 +10,7 @@ public class Asteroid extends Enemy {
 	
 	public Asteroid() {
 		super();
-		this.setImg(this.loadImg("/assets/asteroid.png"));
+		this.setImg(this.loadImg("/assets/asteroid2.png"));
 	}
 
 	@Override

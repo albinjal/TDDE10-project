@@ -24,8 +24,8 @@ public class HighScores extends GameState {
 
 	public HighScores(GameModel model) {
 		super(model);
-		this.addButton(new Button(new MyPoint(180, Constants.SCREEN_HEIGHT - 60), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> this.menu()));
-		this.addButton(new Button(new MyPoint(Constants.SCREEN_WIDTH-180, Constants.SCREEN_HEIGHT - 60), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> this.play()));
+		this.addButton(new Button(new MyPoint(180, Constants.SCREEN_HEIGHT - 60), new Rectangle2D.Double(0, 0, 300, 100), "/assets/menu.png", () -> this.menu()));
+		this.addButton(new Button(new MyPoint(Constants.SCREEN_WIDTH-180, Constants.SCREEN_HEIGHT - 60), new Rectangle2D.Double(0, 0, 300, 100), "/assets/play.png", () -> this.play()));
 		try{    
             FileInputStream file = new FileInputStream("data/.highscores.ser"); 
             ObjectInputStream in = new ObjectInputStream(file); 
@@ -51,12 +51,11 @@ public class HighScores extends GameState {
 		this.drawBg(g, Color.black);
 		super.draw(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(new Font("Roboto", Font.PLAIN, 40));
 		g2.setColor(Color.white);
-		Asteroids.drawCenteredString(g, "Highscores", 60, Constants.centerX, 100);
+		Asteroids.drawCenteredString(g, "Highscores", 80, Constants.centerX, 100);
 		int i=0;
 		for (int score : this.scores) {
-			Asteroids.drawCenteredString(g, new Integer(score).toString(), 40, Constants.centerX, 200 + 50*i);
+			Asteroids.drawCenteredString(g, new Integer(score).toString(), 50, Constants.centerX, 200 + 50*i);
 			i++;
 		}
 

@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -85,7 +86,7 @@ public class PlayModel {
 	}
 
 	private void drawUI(Graphics2D g2, Graphics g) {
-		g2.setFont(new Font("Roboto", Font.PLAIN, 20));
+		g2.setFont(new Font(Constants.font, Font.PLAIN, 40));
 		g2.setColor(Color.white);
 		g2.draw(this.visableArea);
 		g2.drawString("Level " + new Integer(this.currentLevel).toString(), 100, 50);
@@ -108,6 +109,9 @@ public class PlayModel {
 		});
 		if (this.earnableLvlPoints > 0) {
 			this.earnableLvlPoints -= this.currentDif/Constants.fps;
+		}
+		if (keys.contains(27)) {
+			this.menu();
 		}
 		this.ship.updateAppearance(keys);
 		actions.forEach(action -> action.run());
@@ -254,11 +258,11 @@ public class PlayModel {
 		for (Enemy enemy : this.enemies) {
 			if (enemy.getHitbox().intersects(this.ship.getHitbox().getBounds2D())) {
 				this.ship.collide();
+				if (this.shipLives.size() > 0 && !this.ship.getShieldStatus()) {
+					this.shipLives.remove(this.shipLives.size() - 1);
+				}
 				if (this.ship.getLives() <= 0) {
 					this.endLevel();
-				}
-				if (this.shipLives.size() != 0) {
-					this.shipLives.remove(this.shipLives.size() - 1);
 				}
 				remove.add(i);
 

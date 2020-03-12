@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.util.Set;
 
+import asteroids.Asteroids;
 import data.Constants;
 import data.GameStates;
 import utilites.Button;
@@ -15,9 +16,9 @@ public class MenuState extends GameState {
 	private static int buttons = 3;
 	public MenuState(GameModel model) {
 		super(model);
-		this.addButton(new Button(new MyPoint(Constants.centerX,  Constants.SCREEN_HEIGHT / (buttons + 1)), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> this.play()));
-		this.addButton(new Button(new MyPoint(Constants.centerX, 2 * Constants.SCREEN_HEIGHT /( buttons + 1)), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> this.highScores()));
-		this.addButton(new Button(new MyPoint(Constants.centerX, 3 * Constants.SCREEN_HEIGHT /( buttons + 1)), new Rectangle2D.Double(0, 0, 300, 100), "/assets/pButton.png", () -> System.exit(0)));
+		this.addButton(new Button(new MyPoint(Constants.centerX,  (Constants.SCREEN_HEIGHT / (buttons + 1)) + 100), new Rectangle2D.Double(0, 0, 400, 100), "/assets/play.png", () -> this.play()));
+		this.addButton(new Button(new MyPoint(Constants.centerX, (2 * Constants.SCREEN_HEIGHT /( buttons + 1)) + 100), new Rectangle2D.Double(0, 0, 400, 100), "/assets/highscores.png", () -> this.highScores()));
+		this.addButton(new Button(new MyPoint(Constants.centerX, (3 * Constants.SCREEN_HEIGHT /( buttons + 1)) + 100), new Rectangle2D.Double(0, 0, 400, 100), "/assets/quit.png", () -> System.exit(0)));
 
 	}
 
@@ -29,6 +30,8 @@ public class MenuState extends GameState {
 	public void draw(Graphics g) {
 		this.drawBg(g, Color.black);
 		super.draw(g);
+		g.setColor(Color.white);
+		Asteroids.drawCenteredString(g, "Asteroids", 120, Constants.centerX, 100);
 	}
 	
 	private void play() {
