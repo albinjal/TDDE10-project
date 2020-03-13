@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.sun.corba.se.impl.ior.GenericTaggedComponent;
 
 import data.Constants;
 import data.Enemies;
@@ -218,16 +217,17 @@ public class PlayModel {
 	}
 
 	private static void drawCol(Collection<? extends GameObject> col, Graphics2D g) {
-		for (GameObject obj : col) {
+		col.forEach((GameObject obj) -> {
 			obj.draw(g);
-		}
+		});
 	}
 
 	private void checkForWarp(GameObject obj) {
-		double visWidth = this.visableArea.getMaxX();
-		double visHeight = this.visableArea.getMaxY();
+		final double visWidth = this.visableArea.getMaxX();
+		final double visHeight = this.visableArea.getMaxY();
 		double objX = obj.getPos().getX();
 		double objY = obj.getPos().getY();
+		
 		if (!obj.getHitbox().intersects(this.visableArea)) {
 			if (objX > visWidth) {
 				objX = 0;
