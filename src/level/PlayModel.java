@@ -69,40 +69,58 @@ public class PlayModel {
 		}
 
 	}
-	
-	// TODO: Code cleanup
 
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		this.drawBg(g);
-		g2.draw(this.visableArea);
-		ship.draw(g2);
-		drawCol(this.enemies, g2);
-		drawCol(this.shots, g2);
-		drawCol(this.powerups, g2);
+		this.drawGameObjects(g2);
 		this.drawUI(g2, g);
-
-	}
-
-	private void drawBg(Graphics g) {
-		g.setColor(Constants.playBackground);
-		g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	}
-
-	private void drawUI(Graphics2D g2, Graphics g) {
-		g2.setFont(new Font(Constants.font, Font.PLAIN, 40));
-		g2.setColor(Color.white);
-		g2.draw(this.visableArea);
-		g2.drawString("Level " + new Integer(this.currentLevel).toString(), 100, 50);
-		g2.drawString("Points " + new Integer(this.points).toString(), 200, 50);
-		for (ShipLife life : this.shipLives) {
-			life.drawImage(g);
-		}
-
 	}
 
 	public void update(double time, Set<Integer> keys) {
 		this.checkForNewLevel();
+		this.updateActions(keys);
+		this.updateGameObjects(time, keys);
+		if (this.earnableLvlPoints > 0) {
+			this.earnableLvlPoints -= this.currentDif / Constants.fps;
+		}
+	}
+
+	public void addShot(Bullet shot) {
+		this.shots.add(shot);
+	}
+
+	private void updateGameObjects(double time, Set<Integer> keys) {
+		this.updateShip(time, keys);
+		this.updateEnemies(time);
+		this.updatePowerUps(time);
+	}
+
+	private void updateShip(double time, Set<Integer> keys) {
+		this.ship.update(time, this.ship);
+		this.ship.updateAppearance(keys);
+		this.checkForWarp(this.ship);
+		updateCol(this.shots, time, this.ship);
+		this.removeUnseen(this.shots);
+	}
+
+	private void updateEnemies(double time) {
+		this.checkForEnemyCollisions();
+		for (Enemy enemy : this.enemies) {
+			this.checkForWarp(enemy);
+		}
+		updateCol(this.enemies, time, this.ship);
+	}
+
+	private void updatePowerUps(double time) {
+		this.checkForPowerUpCollisions();
+		for (Powerup pwrUp : this.powerups) {
+			this.checkForWarp(pwrUp);
+		}
+		updateCol(this.powerups, time, this.ship);
+	}
+
+	private void updateActions(Set<Integer> keys) {
 		Set<Runnable> actions = new HashSet<Runnable>();
 		keys.forEach(key -> {
 			Runnable action = this.keyActions.get(key);
@@ -111,29 +129,7 @@ public class PlayModel {
 			}
 
 		});
-		if (this.earnableLvlPoints > 0) {
-			this.earnableLvlPoints -= this.currentDif/Constants.fps;
-		}
-		if (keys.contains(27)) {
-			this.menu();
-		}
-		this.ship.updateAppearance(keys);
 		actions.forEach(action -> action.run());
-		this.checkForEnemyCollisions();
-		this.checkForPowerUpCollisions();
-		this.removeUnseen(this.shots);
-		this.ship.update(time, this.ship);
-		this.checkForWarp(this.ship);
-		for (Enemy enemy : this.enemies) {
-			this.checkForWarp(enemy);
-		}
-		for (Powerup pwrUp : this.powerups) {
-			this.checkForWarp(pwrUp);
-		}
-		updateCol(this.shots, time, this.ship);
-		updateCol(this.enemies, time, this.ship);
-		updateCol(this.powerups, time, this.ship);
-
 	}
 
 	private void addActions() {
@@ -141,6 +137,7 @@ public class PlayModel {
 		this.keyActions.put(KeyEvent.VK_A, () -> this.ship.turnLeft());
 		this.keyActions.put(KeyEvent.VK_D, () -> this.ship.turnRight());
 		this.keyActions.put(KeyEvent.VK_SPACE, () -> this.ship.fire());
+		this.keyActions.put(KeyEvent.VK_ESCAPE, () -> this.menu());
 	}
 
 	private void checkForNewLevel() {
@@ -174,14 +171,14 @@ public class PlayModel {
 		this.loose();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void loose() {
 		this.menu();
 		ArrayList<Integer> scores = new ArrayList<Integer>();
 		try {
 			FileInputStream file = new FileInputStream("data/.highscores.ser");
 			ObjectInputStream in = new ObjectInputStream(file);
-
-			scores = (ArrayList<Integer>)in.readObject();
+			scores = (ArrayList<Integer>) in.readObject();
 			in.close();
 			file.close();
 		} catch (IOException ex) {
@@ -208,10 +205,6 @@ public class PlayModel {
 			i.printStackTrace();
 		}
 
-	}
-
-	public void addShot(Bullet shot) {
-		this.shots.add(shot);
 	}
 
 	private void removeUnseen(Collection<? extends GameObject> col) {
@@ -272,17 +265,15 @@ public class PlayModel {
 					this.endLevel();
 				}
 				remove.add(i);
-
 			}
 			int k = 0;
-
 			for (Bullet shot : this.shots) {
 
 				if (shot.getHitbox().intersects(enemy.getHitbox().getBounds2D())) {
 					remove.add(i);
 					removeS.add(k);
 					this.points += 5;
-					if (enemy.getType() == Enemies.Asteroid) {
+					if (enemy.getType() == Enemies.BigAsteroid) {
 						for (int y = 0; y < Constants.MiniAsteroidSpawn; y++) {
 							Enemy mini = new MiniAsteroid();
 							mini.setPos(enemy.getPos());
@@ -292,10 +283,9 @@ public class PlayModel {
 				}
 				k++;
 			}
-
 			i++;
 		}
-		
+
 		this.enemies.addAll(list);
 		for (int del : removeS) {
 			if (del < this.shots.size()) {
@@ -326,4 +316,26 @@ public class PlayModel {
 		}
 	}
 
+	private void drawGameObjects(Graphics2D g2) {
+		ship.draw(g2);
+		drawCol(this.enemies, g2);
+		drawCol(this.shots, g2);
+		drawCol(this.powerups, g2);
+	}
+
+	private void drawBg(Graphics g) {
+		g.setColor(Constants.playBackground);
+		g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}
+
+	private void drawUI(Graphics2D g2, Graphics g) {
+		g2.setFont(new Font(Constants.font, Font.PLAIN, 40));
+		g2.setColor(Color.white);
+		g2.draw(this.visableArea);
+		g2.drawString("Level " + new Integer(this.currentLevel).toString(), 100, 50);
+		g2.drawString("Points " + new Integer(this.points).toString(), 200, 50);
+		for (ShipLife life : this.shipLives) {
+			life.drawImage(g);
+		}
+	}
 }

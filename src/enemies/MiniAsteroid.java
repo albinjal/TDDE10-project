@@ -9,28 +9,16 @@ import data.Constants;
 import data.Enemies;
 import utilites.MyPoint;
 
-public class MiniAsteroid extends Enemy {
+public class MiniAsteroid extends Asteroid {
 	private static Random generator = new Random();
 	int randomNum;
 
 	public MiniAsteroid() {
 		super(Enemies.MiniAsteroid);
-		this.setMiniAsteroid();
-		MyPoint vel = this.generateVel(1);
+		this.setAsteroid();
+		MyPoint vel = MiniAsteroid.generateVel(1);
 		this.setVel(vel);
 		this.setDirection(vel);
-	}
-	
-	private void setMiniAsteroid() {
-		randomNum = ThreadLocalRandom.current().nextInt(0, 1 + 1);
-		switch (randomNum) {
-		case 0:
-			this.setImg(this.loadImg("/assets/asteroid2.png"));
-			break;
-		case 1:
-			this.setImg(this.loadImg("/assets/asteroid3.png"));
-			break;
-		}
 	}
 	
 	@Override

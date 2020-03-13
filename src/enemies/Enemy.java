@@ -14,8 +14,10 @@ public abstract class Enemy extends GameObject {
 
 	public static Enemy generate(Enemies e) {
 		switch(e) {
-		case Asteroid: return new Asteroid();
+		case BigAsteroid: return new BigAsteroid();
 		case Rocket: return new Rocket();
+		default: System.out.print("Critical error");
+			break;
 		}
 		return null;
 	}

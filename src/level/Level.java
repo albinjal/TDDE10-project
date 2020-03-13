@@ -30,7 +30,7 @@ public class Level {
 	
 	public ArrayList<Enemy> loadEnemies(double dificulty, Rectangle2D outline, GameObject follow) {
 		ArrayList<Enemy> list = new ArrayList<Enemy>();
-		list.addAll(loadEnemy(dificulty, outline, Enemies.Asteroid, this.asteroids * dificulty, follow));
+		list.addAll(loadEnemy(dificulty, outline, Enemies.BigAsteroid, this.asteroids * dificulty, follow));
 		list.addAll(loadEnemy(dificulty, outline, Enemies.Rocket, this.rockets * dificulty, follow));
 		return list;
 	}
