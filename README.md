@@ -21,24 +21,6 @@ En vidareutveckling  av spelet skulle kunna vara ett Co-op mode där två spelar
 # 
 
 
-# Referensmaterial
-
-
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/Kravspecifikation-Asteroids0.png). Store image on your image server and adjust path/filename if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/Kravspecifikation-Asteroids0.png "image_tooltip")
-
-
-När man först startar är tanken att det ska se ut något i stil med detta, dock med ett val att avsluta samt ett val att se highscorelistan.
-
-När spelaren sedan startar en session börjar asteroider med en gång “attackera” spelaren och spelaren måste då göra sitt bästa för att överleva och få så bra poäng som möjligt trots ökande svårighetsgrad och emellanåt svårare nivåer med bossar. Spelaren kan se sin nuvarande poäng och kvarvarande liv.  
-
-
-# 
-
-
 # Kravspecifikation
 
 
