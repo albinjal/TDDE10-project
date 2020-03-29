@@ -2,7 +2,13 @@ package utilites;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-
+/** This class is an extension of Point2D.Double and adds some custom functionality, mostly linear algebra related.
+ * This makes the vector math of the application much more smooth.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class MyPoint extends Point2D.Double {
 
 	public MyPoint() {

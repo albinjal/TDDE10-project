@@ -1,19 +1,21 @@
 package asteroids;
-
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import data.Constants;
 import states.GameModel;
 
+/** Used as an entry point to the game. Contains the game loop logic as well as some utility static methods.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class Asteroids {
 
 	public static void main(String[] args) {

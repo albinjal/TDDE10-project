@@ -1,11 +1,14 @@
 package asteroids;
 
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
-
 import states.GameModel;
 
+/** The Gameframe creates a frame that the canvas lives inside.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class GameFrame extends JFrame {
 	
 	public GameFrame(GameModel model) {

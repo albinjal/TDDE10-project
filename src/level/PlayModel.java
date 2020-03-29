@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import data.Constants;
 import data.Enemies;
@@ -39,11 +39,17 @@ import utilites.Button;
 import utilites.GameObject;
 import utilites.MyPoint;
 import utilites.ShipLife;
-
+/** The Playmodel is a very important class used to represent the current state of the game when playing. It holds all relevant data such as the ship and remaining enemies.
+ * It also takes care of making sure everything is drawn and updated in the right way via the draw and update methods.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class PlayModel {
 	private Ship ship;
 	private PlayState stateRef;
-	private ArrayList<Enemy> enemies;
+	private CopyOnWriteArrayList<Enemy> enemies;
 	private ArrayList<Powerup> powerups;
 	private ArrayList<Bullet> shots = new ArrayList<Bullet>();
 	private int points = 0;

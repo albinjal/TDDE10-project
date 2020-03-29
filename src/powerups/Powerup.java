@@ -7,7 +7,12 @@ import data.Powerups;
 import ship.Ship;
 import utilites.GameObject;
 
-
+/** Contains the common things for powerups.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public abstract class Powerup extends GameObject {
 
 	public Powerup() {

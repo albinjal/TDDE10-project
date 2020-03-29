@@ -8,7 +8,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import data.Constants;
 import data.Enemies;
 import utilites.MyPoint;
-
+/** Represents a mini asteroid which spawn when a big one dies.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class MiniAsteroid extends Asteroid {
 	private static Random generator = new Random();
 	int randomNum;

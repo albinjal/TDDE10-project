@@ -1,18 +1,20 @@
 package utilites;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.Vector;
-
 import asteroids.Asteroids;
 import data.Constants;
-
+/** Represents a generic object in the game.
+ * The class handles both the physics aspect of the object and how it is drawn.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public abstract class GameObject {
 	private double rotation = 0;
 	private MyPoint position;

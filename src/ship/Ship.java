@@ -1,26 +1,18 @@
 package ship;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Set;
-
 import data.Constants;
 import level.PlayModel;
 import utilites.GameObject;
 import utilites.MyPoint;
 
+/** The ship class is intended to represent a generic ship with all the things that comes with it such as shooting, accelerating and turning.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public abstract class Ship extends GameObject {
 	private PlayModel model;
 	private Boolean shield = false;

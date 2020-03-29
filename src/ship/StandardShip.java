@@ -10,7 +10,12 @@ import java.awt.image.BufferedImage;
 import asteroids.Asteroids;
 import level.PlayModel;
 import utilites.MyPoint;
-
+/** The StandardShip is the most basic type of ship which mostly is used just as way of implementing Ship.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class StandardShip extends Ship {
 	private BufferedImage image;
 	public StandardShip(PlayModel model) {

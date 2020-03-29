@@ -6,7 +6,12 @@ import java.awt.image.BufferedImage;
 
 import asteroids.Asteroids;
 import utilites.GameObject;
-
+/** Represents a shot comming out of the ship.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class Bullet extends GameObject {
 	public Bullet() {
 		this.setImg(this.loadImg("/assets/laser_bullet.png"));

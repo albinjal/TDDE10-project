@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import data.Constants;
 import data.Enemies;
@@ -14,7 +15,14 @@ import enemies.Rocket;
 import powerups.Powerup;
 import utilites.GameObject;
 import utilites.MyPoint;
-
+/** The level class is used as an interface for levels of the game.
+ * It holds information about the initial conditions of the level such as distribution of enemies and powerups.
+ * It also handles the logic of loading a new level where it generates the correct amount of enemies and powerup which is then inserted into the playmodel.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class Level {
 	private static Random generator = new Random();
 	private int asteroids;
@@ -28,8 +36,8 @@ public class Level {
 		this.bulletIntencity = bulletIntencity;
 	}
 	
-	public ArrayList<Enemy> loadEnemies(double dificulty, Rectangle2D outline, GameObject follow) {
-		ArrayList<Enemy> list = new ArrayList<Enemy>();
+	public CopyOnWriteArrayList<Enemy> loadEnemies(double dificulty, Rectangle2D outline, GameObject follow) {
+		CopyOnWriteArrayList<Enemy> list = new CopyOnWriteArrayList<Enemy>();
 		list.addAll(loadEnemy(dificulty, outline, Enemies.BigAsteroid, this.asteroids * dificulty, follow));
 		list.addAll(loadEnemy(dificulty, outline, Enemies.Rocket, this.rockets * dificulty, follow));
 		return list;

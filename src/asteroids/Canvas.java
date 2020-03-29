@@ -6,15 +6,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.swing.JPanel;
-
 import data.Constants;
 import states.GameModel;
 
+/** The Canvas is a JPanel filling the frame. It handles most of the IO such as registering key / mouse clicks and painting the model inside itself.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class Canvas extends JPanel {
 	private Set<Integer> keys = new HashSet<Integer>();
 	private GameModel model;

@@ -2,13 +2,16 @@ package states;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import data.Constants;
 import data.GameStates;
-
+/** The gamemodel take care of the logic of switching between different gamestates such as the menustate and playstate.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class GameModel {
 	private GameState activeState;
 	private Set<Integer> keys = new HashSet<Integer>();

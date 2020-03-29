@@ -17,7 +17,12 @@ import data.GameStates;
 import utilites.Button;
 import utilites.MyPoint;
 import utilites.ShipLife;
-
+/** Represents the HighScore gamestate.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class HighScores extends GameState {
 	private static int buttons = 2;
 	private ArrayList<Integer> scores = new ArrayList<Integer>();
@@ -43,7 +48,6 @@ public class HighScores extends GameState {
 
 	@Override
 	public void update(Set<Integer> keys) {
-		// TODO Auto-generated method stub
 
 	}
 

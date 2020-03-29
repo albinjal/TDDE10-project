@@ -1,17 +1,18 @@
 package data;
-
 import java.awt.Color;
-import java.awt.Font;
 
-import states.GameState;
-import states.PlayState;
-
+/** Holds most of the constants game settings such as screen resolution and fps.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 
 public interface Constants {
 	final double fps = 120;
 	GameStates entryState = GameStates.Menu;
-    int SCREEN_WIDTH = 1800;
-    int SCREEN_HEIGHT = 1000;
+    int SCREEN_WIDTH = 800;
+    int SCREEN_HEIGHT = 800;
     Color playBackground = Color.black;
     boolean developer_mode = false;
     double enemy_maxspeed = 100;

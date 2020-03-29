@@ -1,9 +1,13 @@
 package powerups;
 
-
 import data.Constants;
 import ship.Ship;
-
+/** Represents a powerup which makes the ship shoot faster.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class BulletIntencity extends Powerup {
 
 	public BulletIntencity() {

@@ -7,7 +7,12 @@ import java.awt.geom.Rectangle2D.Double;
 import data.Enemies;
 import utilites.GameObject;
 import utilites.MyPoint;
-
+/** Represents the rocket enemy. The follow method makes it follow the player.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class Rocket extends Enemy {
 	public Rocket() {
 		super(Enemies.Rocket);

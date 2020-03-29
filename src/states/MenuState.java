@@ -11,7 +11,12 @@ import data.Constants;
 import data.GameStates;
 import utilites.Button;
 import utilites.MyPoint;
-
+/** Represents the menu gamestate.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class MenuState extends GameState {
 	private static int buttons = 3;
 	public MenuState(GameModel model) {

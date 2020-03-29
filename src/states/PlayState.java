@@ -10,7 +10,13 @@ import data.Constants;
 import level.PlayModel;
 import utilites.Button;
 import utilites.MyPoint;
-
+/** Represents the playing gamestate.
+ * This class is helped by PlayModel which contains the state of play and how it is handled. 
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public class PlayState extends GameState {
 	private PlayModel data;
 	private long lastUpdate = System.currentTimeMillis();

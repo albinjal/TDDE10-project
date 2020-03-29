@@ -1,8 +1,12 @@
 package enemies;
-
 import data.Enemies;
 import utilites.GameObject;
-
+/** Represents an enemy. The type is used to determine if the enemy should split on death.
+ * 
+ * @author Albin
+ * @version 1.0
+ * @since 1.0
+ */
 public abstract class Enemy extends GameObject {
 	public static int killPoint = 30;
 	public Enemies type;
