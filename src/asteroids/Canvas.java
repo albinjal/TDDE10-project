@@ -12,13 +12,17 @@ import javax.swing.JPanel;
 import data.Constants;
 import states.GameModel;
 
-/** The Canvas is a JPanel filling the frame. It handles most of the IO such as registering key / mouse clicks and painting the model inside itself.
+/**
+ * The Canvas is a JPanel filling the frame. It handles most of the IO such as
+ * registering key / mouse clicks and painting the model inside itself.
  * 
  * @author Albin
  * @version 1.0
  * @since 1.0
  */
 public class Canvas extends JPanel {
+
+	private static final long serialVersionUID = 4490019152117443208L;
 	private Set<Integer> keys = new HashSet<Integer>();
 	private GameModel model;
 
@@ -29,7 +33,6 @@ public class Canvas extends JPanel {
 		this.setFocusable(true);
 
 		this.addKeyListener(new KeyAdapter() {
-
 
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -46,9 +49,9 @@ public class Canvas extends JPanel {
 			}
 
 		});
-		
+
 		this.addMouseListener(new MouseAdapter() {
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				model.click(e);

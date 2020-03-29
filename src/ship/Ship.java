@@ -7,7 +7,9 @@ import level.PlayModel;
 import utilites.GameObject;
 import utilites.MyPoint;
 
-/** The ship class is intended to represent a generic ship with all the things that comes with it such as shooting, accelerating and turning.
+/**
+ * The ship class is intended to represent a generic ship with all the things
+ * that comes with it such as shooting, accelerating and turning.
  * 
  * @author Albin
  * @version 1.0

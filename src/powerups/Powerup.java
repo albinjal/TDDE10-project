@@ -7,7 +7,8 @@ import data.Powerups;
 import ship.Ship;
 import utilites.GameObject;
 
-/** Contains the common things for powerups.
+/**
+ * Contains the common things for powerups.
  * 
  * @author Albin
  * @version 1.0
@@ -23,14 +24,16 @@ public abstract class Powerup extends GameObject {
 	public Shape getHitboxShape() {
 		return new Rectangle2D.Double(0, 0, 50, 50);
 	}
-	
+
 	public static Powerup generate(Powerups e) {
-		switch(e) {
-		case Shield: return new Shield();
-		case BulletIntencity: return new BulletIntencity();
+		switch (e) {
+		case Shield:
+			return new Shield();
+		case BulletIntencity:
+			return new BulletIntencity();
 		}
 		return null;
 	}
-	
+
 	public abstract void usePwr(Ship ship);
 }

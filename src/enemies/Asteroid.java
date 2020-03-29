@@ -3,7 +3,9 @@ package enemies;
 import java.util.concurrent.ThreadLocalRandom;
 import data.Enemies;
 
-/** Represents the Asteroid enemy. The class is abstract since all asteroids are either big or mini.
+/**
+ * Represents the Asteroid enemy. The class is abstract since all asteroids are
+ * either big or mini.
  * 
  * @author Albin
  * @version 1.0
@@ -11,7 +13,7 @@ import data.Enemies;
  */
 public abstract class Asteroid extends Enemy {
 
-	int randomNum;
+	private int randomNum;
 
 	public Asteroid(Enemies type) {
 		super(type);

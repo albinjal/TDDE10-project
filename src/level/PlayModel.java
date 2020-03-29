@@ -7,9 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,12 +33,15 @@ import ship.Bullet;
 import ship.Ship;
 import ship.StandardShip;
 import states.PlayState;
-import utilites.Button;
 import utilites.GameObject;
 import utilites.MyPoint;
 import utilites.ShipLife;
-/** The Playmodel is a very important class used to represent the current state of the game when playing. It holds all relevant data such as the ship and remaining enemies.
- * It also takes care of making sure everything is drawn and updated in the right way via the draw and update methods.
+
+/**
+ * The Playmodel is a very important class used to represent the current state
+ * of the game when playing. It holds all relevant data such as the ship and
+ * remaining enemies. It also takes care of making sure everything is drawn and
+ * updated in the right way via the draw and update methods.
  * 
  * @author Albin
  * @version 1.0
@@ -161,7 +162,7 @@ public class PlayModel {
 	}
 
 	private void incrementLevel() {
-		if (this.currentLevelType < this.levels.length - 1) {
+		if (this.currentLevelType < levels.length - 1) {
 			this.currentLevelType++;
 		} else {
 			this.currentLevelType = 0;
@@ -176,7 +177,6 @@ public class PlayModel {
 		this.loose();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void loose() {
 		this.menu();
 		ArrayList<Integer> scores = new ArrayList<Integer>();
@@ -233,7 +233,7 @@ public class PlayModel {
 		final double visHeight = this.visableArea.getMaxY();
 		double objX = obj.getPos().getX();
 		double objY = obj.getPos().getY();
-		
+
 		if (!obj.getHitbox().intersects(this.visableArea)) {
 			if (objX > visWidth) {
 				objX = 0;
@@ -338,8 +338,8 @@ public class PlayModel {
 		g2.setFont(new Font(Constants.font, Font.PLAIN, 40));
 		g2.setColor(Color.white);
 		g2.draw(this.visableArea);
-		g2.drawString("Level " + new Integer(this.currentLevel).toString(), 100, 50);
-		g2.drawString("Points " + new Integer(this.points).toString(), 200, 50);
+		g2.drawString("Level " + String.valueOf(this.currentLevel), 100, 50);
+		g2.drawString("Points " + String.valueOf(this.points), 200, 50);
 		for (ShipLife life : this.shipLives) {
 			life.drawImage(g);
 		}

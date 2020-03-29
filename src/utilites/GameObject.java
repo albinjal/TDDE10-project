@@ -8,8 +8,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import asteroids.Asteroids;
 import data.Constants;
-/** Represents a generic object in the game.
- * The class handles both the physics aspect of the object and how it is drawn.
+
+/**
+ * Represents a generic object in the game. The class handles both the physics
+ * aspect of the object and how it is drawn.
  * 
  * @author Albin
  * @version 1.0
@@ -21,18 +23,17 @@ public abstract class GameObject {
 	private MyPoint velocity;
 	private double resistance = 0;
 	private BufferedImage img;
-	
 
 	public GameObject() {
 		this.setPos(new MyPoint());
 		this.velocity = new MyPoint();
 	}
-	
+
 	public GameObject(MyPoint pos) {
 		this.setPos(pos);
 		this.velocity = new MyPoint();
 	}
-	
+
 	public GameObject(MyPoint pos, MyPoint vel) {
 		this.setPos(pos);
 		this.setVel(vel);
@@ -90,8 +91,6 @@ public abstract class GameObject {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawImage(this.getImg(), trans, null);
 	}
-	
-
 
 	public AffineTransform scaleImg() {
 		AffineTransform trans = new AffineTransform();
@@ -106,14 +105,9 @@ public abstract class GameObject {
 	public MyPoint getDirection() {
 		return new MyPoint(Math.cos(this.rotation), Math.sin(this.rotation));
 	}
-	
+
 	public void update(double time, GameObject follow) {
 		this.updateKinematics(time, follow);
-	}
-
-	private void updateKinematics(double time, GameObject follow) {
-		this.patchPos(time);
-		this.resist(time);
 	}
 
 	public void patchPos(double time) {
@@ -148,11 +142,11 @@ public abstract class GameObject {
 			this.drawHitbox(g2d);
 		}
 	}
-	
+
 	public MyPoint getVel() {
 		return this.velocity;
 	}
-	
+
 	public void setDirection(MyPoint dir) {
 		dir = dir.normalize();
 		double quad = Math.asin(dir.getY());
@@ -161,6 +155,24 @@ public abstract class GameObject {
 			angle *= -1;
 		}
 		this.setRotation(angle);
+	}
+
+	public abstract Shape getHitboxShape();
+
+	public BufferedImage getImg() {
+		return this.img;
+	}
+
+	public void setResistance(double res) {
+		this.resistance = res;
+	}
+
+	public BufferedImage loadImg(String path) {
+		return Asteroids.loadImage(this.getClass().getResource(path).getPath());
+	}
+
+	public void setImg(BufferedImage img) {
+		this.img = img;
 	}
 
 	private Shape vectorFromCenter(MyPoint point) {
@@ -173,22 +185,9 @@ public abstract class GameObject {
 		this.velocity = this.velocity.subtract(this.velocity.multiply(time * this.resistance));
 	}
 
-	public abstract Shape getHitboxShape();
-
-	public BufferedImage getImg() {
-		return this.img;
+	private void updateKinematics(double time, GameObject follow) {
+		this.patchPos(time);
+		this.resist(time);
 	}
 
-	public void setResistance(double res) {
-		this.resistance = res;
-	}
-	
-	public BufferedImage loadImg(String path) {
-		return Asteroids.loadImage(this.getClass().getResource(path).getPath());
-	}
-	
-	public void setImg(BufferedImage img) {
-		this.img = img;
-	}
-	
 }

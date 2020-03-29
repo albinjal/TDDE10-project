@@ -1,4 +1,5 @@
 package asteroids;
+
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -10,7 +11,9 @@ import javax.imageio.ImageIO;
 import data.Constants;
 import states.GameModel;
 
-/** Used as an entry point to the game. Contains the game loop logic as well as some utility static methods.
+/**
+ * Used as an entry point to the game. Contains the game loop logic as well as
+ * some utility static methods.
  * 
  * @author Albin
  * @version 1.0
@@ -49,19 +52,20 @@ public class Asteroids {
 		}
 		return null;
 	}
-	
+
 	public static void drawCenteredString(Graphics g, String text, int size, int xPos, int yPos) {
-	    // Get the FontMetrics
-		Font font = new Font (Constants.font, Font.PLAIN, size);
-	    FontMetrics metrics = g.getFontMetrics(font);
-	    // Determine the X coordinate for the text
-	    int x = xPos - (metrics.stringWidth(text) / 2);
-	    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-	    int y = yPos - (metrics.getHeight() / 2) + metrics.getAscent();
-	    // Set the font
-	    g.setFont(font);
-	    // Draw the String
-	    g.drawString(text, x, y);
+		// Get the FontMetrics
+		Font font = new Font(Constants.font, Font.PLAIN, size);
+		FontMetrics metrics = g.getFontMetrics(font);
+		// Determine the X coordinate for the text
+		int x = xPos - (metrics.stringWidth(text) / 2);
+		// Determine the Y coordinate for the text (note we add the ascent, as in java
+		// 2d 0 is top of the screen)
+		int y = yPos - (metrics.getHeight() / 2) + metrics.getAscent();
+		// Set the font
+		g.setFont(font);
+		// Draw the String
+		g.drawString(text, x, y);
 	}
 
 }

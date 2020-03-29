@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Set;
 import utilites.Button;
 
-/** This abstract class acts as a base for creating new gamestates. 
+/**
+ * This abstract class acts as a base for creating new gamestates.
  * 
  * @author Albin
  * @version 1.0
@@ -19,19 +20,19 @@ import utilites.Button;
 public abstract class GameState {
 	private ArrayList<Button> buttons = new ArrayList<Button>();
 	private GameModel model;
-	
+
 	public GameState(GameModel model) {
 		this.model = model;
 	}
-	
+
 	public void draw(Graphics g) {
 		for (Button button : this.buttons) {
 			button.draw((Graphics2D) g);
 		}
 	}
-	
+
 	public abstract void update(Set<Integer> keys);
-	
+
 	public void click(MouseEvent e) {
 		for (Button button : this.buttons) {
 			if (button.getHitbox().contains(e.getPoint())) {
@@ -39,17 +40,17 @@ public abstract class GameState {
 			}
 		}
 	}
-		
-    public void drawBg(Graphics g, Color color) {
-        g.setColor(color);
-        g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    }
-    
-    protected void addButton(Button button) {
-    	this.buttons.add(button);
-    }
-    
-    public GameModel getModel() {
-    	return this.model;
-    }
+
+	public void drawBg(Graphics g, Color color) {
+		g.setColor(color);
+		g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}
+
+	public GameModel getModel() {
+		return this.model;
+	}
+
+	protected void addButton(Button button) {
+		this.buttons.add(button);
+	}
 }

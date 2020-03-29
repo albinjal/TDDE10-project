@@ -1,7 +1,9 @@
 package powerups;
 
 import ship.Ship;
-/** Represents a powerup which gives the ship a shield for a short duration.
+
+/**
+ * Represents a powerup which gives the ship a shield for a short duration.
  * 
  * @author Albin
  * @version 1.0

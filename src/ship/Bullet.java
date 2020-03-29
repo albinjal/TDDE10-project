@@ -2,11 +2,11 @@ package ship;
 
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
-import asteroids.Asteroids;
 import utilites.GameObject;
-/** Represents a shot comming out of the ship.
+
+/**
+ * Represents a shot comming out of the ship.
  * 
  * @author Albin
  * @version 1.0
@@ -19,7 +19,7 @@ public class Bullet extends GameObject {
 
 	@Override
 	public Shape getHitboxShape() {
-		return new Rectangle2D.Double(0,0, 40, 10);
+		return new Rectangle2D.Double(0, 0, 40, 10);
 	}
 
 }
