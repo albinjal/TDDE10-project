@@ -339,7 +339,7 @@ public class PlayModel {
 		g2.setColor(Color.white);
 		g2.draw(this.visableArea);
 		g2.drawString("Level " + String.valueOf(this.currentLevel), 100, 50);
-		g2.drawString("Points " + String.valueOf(this.points), 200, 50);
+		g2.drawString("Points " + String.valueOf(this.points), 300, 50);
 		for (ShipLife life : this.shipLives) {
 			life.drawImage(g);
 		}
